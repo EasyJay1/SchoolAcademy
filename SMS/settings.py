@@ -27,7 +27,7 @@ SECRET_KEY = "o!ld8nrt4vc*h1zoey*wj48x*q0#ss12h=+zh)kk^6b3aygg=!"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://localhost:8000', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost:8000']
 
 # Add trusted origins for CSRF
 CSRF_TRUSTED_ORIGINS = ['https://localhost:8000']
