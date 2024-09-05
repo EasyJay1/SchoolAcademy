@@ -27,10 +27,15 @@ SECRET_KEY = "o!ld8nrt4vc*h1zoey*wj48x*q0#ss12h=+zh)kk^6b3aygg=!"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost:8000']
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1',
+    'obscure-sniffle-x6prpxvr59gcpwg4-8000.app.github.dev'
+]
 
-# Add trusted origins for CSRF
-CSRF_TRUSTED_ORIGINS = ['https://localhost:8000']
+CSRF_TRUSTED_ORIGINS = [
+    'https://obscure-sniffle-x6prpxvr59gcpwg4-8000.app.github.dev'
+]
 
 # change the default user models to our custom model
 AUTH_USER_MODEL = "accounts.User"
