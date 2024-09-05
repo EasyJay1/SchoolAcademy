@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://obscure-sniffle-x6prpxvr59gcpwg4-8000.app.github.dev'
+    'https://localhost:8000',
 ]
 
 # change the default user models to our custom model
