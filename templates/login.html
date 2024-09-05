@@ -1,0 +1,92 @@
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+<style>
+    body {
+    width: 40%;
+            background-size: cover; /* This will cover the entire viewport */
+        background-image: url('{% static "img/admssion.jpg" %}'); /* Replace with the actual path to your background image */
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Fixed background so it doesn't scroll with the content */
+    }
+</style>
+
+<div id="login" style=" border-radius: 25px;   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+  background-color: rgba(255, 255, 255, 0.5);  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -60%);
+          transform: translate(-50%, -60%);
+ /* Glass-like background color with opacity */
+">
+  <div class="login-title blue-gradient"><i class="fas fa-lock"></i> You Must 'Sign in'
+      <a style="padding: 5px; float: right; background-color: white; color:red; border-top-right-radius: 10px;" href="{% url 'home' %}"><strong>X</strong></a>
+  </div>
+
+  <form action="" method="POST" id="login-form">{% csrf_token %}
+    <div class="form-group px-3">
+        <div style="position: relative;">
+            <label for="username_id" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 1;"><i class="fas fa-address-card"></i></label>
+            <input type="text" name="username" placeholder="Enter Username" id="username_id" class="form-control" style="padding-left: 30px; z-index: 0;" required>
+        </div>
+        <div id="message-wrapper"></div>
+    </div>
+    <div class="form-group px-3">
+        <div style="position: relative;">
+            <label for="password_id" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 1;"><i class="fas fa-key"></i></label>
+            <input type="password" name="password" id="password_id" placeholder="Enter Password" class="form-control" style="padding-left: 30px; z-index: 0;" required>
+        </div>
+    </div>
+    {% if form.errors %}
+          <span class="text-danger"><i class="fas fa-exclamation-circle"></i> Invalid User Name / Password.</span><br>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary" id="login-btn"><i class="fas fa-sign-in-alt"></i><small> SIGN IN</small></button>
+  </form>
+  <br>
+  <a href="{% url 'reset' %}" class="link">Forgot password ?</a>
+</div>
+<script>
+  $('#login-form').submit(function (e) {
+    // e.preventDefault();
+    $('#login-btn').addClass('disabled')
+    $('#login-btn').html(`<i class="fas fa-sign-in-alt"></i> Signining you in . . .`)
+  })
+
+  $("#username").on("input", function () {
+    username = $(this).val();
+
+    $.ajax({
+      url: "/accounts/ajax/validate-username/",
+      data: {
+        username: username
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.is_taken) {
+          console.log(data.is_taken);
+          $('#message-wrapper').html(`<p class="my-2 text-danger"><span class="bg-error p-2"><b>${username}</b> already taken :( try another one </span></p>`)
+        }
+        else {
+          $('#message-wrapper').html(`<p class="my-2 text-success"><span class="bg-correct p-2"><b>${username}</b> is valid </span></p>`)
+        }
+      }
+
+    })
+  })
+</script>
+{% endblock %}

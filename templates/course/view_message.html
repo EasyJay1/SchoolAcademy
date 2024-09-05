@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container3"  >
+    <div id="input-nav" class="p-2"><a href="{% url 'home' %}"> Home </a><a href="">
+        messages ...</a>My Inbox
+    </div>
+
+
+<strong>{{ message.title }}</strong>
+
+<p>Received at: {{ message.created_at }}</p>
+<br><strong style="float: left;
+  color: #fff;
+  background: #000;
+  padding: 5px 6px;
+  font-weight: bold;
+      border: 1px solid #ccc;
+    border-radius: 14px;
+  font-size: 12px; }
+"> Hi, {{ user.get_full_name }}</strong><br><br>
+<h7>{{ message.content }}</h7>
+<hr>
+
+<style>
+    body {
+        background-image: url('{% static "img/backs.jpeg" %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+</style>
+</div>
+{% endblock content %}

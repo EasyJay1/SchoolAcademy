@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="container3"  >
+    <div id="input-nav" class="p-2"><a href="{% url 'home' %}"> Home </a>School Calendar</div>
+</div>
+
+
+<style>
+    body {
+        background-image: url('{% static "img/backs.jpeg" %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+</style>
+
+    <style>
+        #calendar {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+        }
+
+        #months {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .month {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .month:hover {
+            background-color: #0056b3;
+        }
+
+        #days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #e9ecef;
+        }
+
+        .day {
+            padding: 10px;
+            border: 1px solid #d3d3d3;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .day:hover {
+            background-color: #f2f2f2;
+        }
+
+        .today {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+    <div id="calendar">
+        <div id="calendar-header">
+            <div>
+                <h2>2023 School Calendar</h2>
+            </div>
+            <ul id="months">
+                <li class="month">January</li>
+                <li class="month">February</li>
+                <li class="month">March</li>
+                <li class="month">April</li>
+                <li class="month">May</li>
+                <li class="month">June</li>
+                <li class="month">July</li>
+                <li class="month">August</li>
+                <li class="month">September</li>
+                <li class="month">October</li>
+                <li class="month">November</li>
+                <li class="month">December</li>
+            </ul>
+        </div>
+
+        <div id="days">
+            <div class="day">Sun</div>
+            <div class="day">Mon</div>
+            <div class="day">Tue</div>
+            <div class="day">Wed</div>
+            <div class="day">Thu</div>
+            <div class="day">Fri</div>
+            <div class="day">Sat</div>
+
+            <!-- Example: Displaying days for January -->
+            <div class="day">30</div>
+            <div class="day">31</div>
+            <div class="day today">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day">8</div>
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+            <div class="day">31</div>
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <!-- Add more days as needed -->
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav"><a style="color: orange;" href="{% url 'home' %}" class="primary1">Home</a>
+	|<strike style="color: blue;"href="" class="primary1">FORM 1/3</strike>
+	|<strike style="color: blue;" class="primary1"> FORM 2/3</strike>
+	|<a style="color: gray;" class="primary1">FORM 3/3</a>
+</div>
+
+<p class="title-1"><i class="fas fa-book"></i>STAGE 3/3 | <strong>Parent's Data </strong></p>
+
+	  <div class="row">
+		  <div class="col-lg-6">
+		  <div class="blue-gradient text-light p-3 mb-2">
+			  <h1 class="lead my-0">
+				<i class="fas fa-work mr-2"></i>Update Parent's Data
+			  </h1>
+		  </div>
+
+<form method="POST" action="{% url 'add_parent' %}" class="parent-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_first_name">Parent's First Name:</label>
+        <input type="text" name="first_name" id="id_first_name" class="form-control" placeholder="Enter First Name" required>
+    </div>
+    <div class="form-group">
+        <label for="id_last_name">Parent's Last Name:</label>
+        <input type="text" name="last_name" id="id_last_name" class="form-control" placeholder="Enter Last Name" required>
+    </div>
+    <div class="form-group">
+        <label for="id_occupation">Parent's Occupation:</label>
+        <input type="text" name="occupation" id="id_occupation" class="form-control" placeholder="Enter Occupation" required>
+    </div>
+    <div class="form-group">
+        <label for="id_alt_phone">Parent's Other Phone Line:</label>
+        <input type="text" name="alt_phone" id="id_alt_phone" class="form-control" placeholder="Enter Other Phone Line" required>
+    </div>
+
+    <!-- Hidden email field -->
+    <input type="hidden" name="email_p" value="{{ user.email }}" readonly>
+
+    <div class="form-group">
+        <label for="id_relation_ship">Select Relationship:</label>
+                  <select name="relation_ship" id="id_relation_ship" required>
+            {% for option_value, option_label in relationship_options %}
+              <option value="{{ option_value }}">{{ option_label }}</option>
+            {% endfor %}
+          </select>
+    </div>
+        <button class="button" type="submit"  style="margin-top:10;">COMPLETED</button>
+</form>
+          </div>
+      </div>
+{% endblock %}

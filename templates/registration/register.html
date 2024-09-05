@@ -1,0 +1,199 @@
+{% extends 'registration/registration_base.html' %}
+{% block title %} Register  {% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<style>
+    container {
+    width: 40%;
+            background-size: cover; /* This will cover the entire viewport */
+        background-image: url('{% static "img/admssion.jpg" %}'); /* Replace with the actual path to your background image */
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Fixed background so it doesn't scroll with the content */
+    }
+.form-check label {
+    margin-left: 10px; /* Add margin-bottom as needed */
+}
+
+/* Or */
+
+.form-check input[type="checkbox"] {
+    margin-left: 10px; /* Add margin-bottom as needed */
+}
+
+</style>
+
+<div class="container py-5">
+
+<div id="input-nav"><a style="color: orange;" href="{% url 'home' %}" class="primary1">Home</a>
+	|<a href="{% url 'register' %}" class="primary1">FORM 1/3</a>
+	|<a style="color: gray;" class="primary1"> FORM 2/3</a>
+	|<a style="color: gray;" class="primary1">FORM 3/3</a>
+</div>
+
+<p class="title-1"><i class="fas fa-book"></i>FORM 1/3 | <strong>Create Your Account | Fill Enrollment Data</strong></p>
+
+  <form action="" method="POST" id="login-form">
+	  {% csrf_token %}
+	  <div class="row">
+		  <div class="col-lg-6">
+		  <div class="blue-gradient text-light p-3 mb-2">
+			  <h1 class="lead my-0">
+				<i class="fas fa-lock mr-2"></i>Create Your Account
+			  </h1>
+		  </div>
+			<div class="mb-3">
+				<label for="username_id" class="form-label">{{ form.username.label }}</label>
+				{{ form.username }}
+				<div id="message-wrapper"></div>
+			</div>
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">Email Address *</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.phone.id_for_label }}">Phone No. *</label>
+                        {{ form.phone }}
+                    </div>
+
+			<div class="mb-3">
+				<label for="password1_id" class="form-label">{{ form.password1.label }}</label>
+				{{ form.password1 }}
+			</div>
+			<div class="mb-3">
+				<label for="password2_id" class="form-label">{{ form.password2.label }}</label>
+				{{ form.password2 }}
+			</div>
+<hr>
+			  <div class="blue-gradient text-light p-3 mb-2">
+				  <h1 class="lead my-0">
+					<i class="fas fa-pen mr-2"></i>Child's Enrollment Data
+				  </h1>
+			  </div>
+			<div class="mb-3">
+				<label for="first_name_id" class="form-label">{{ form.first_name.label }}</label>
+				{{ form.first_name }}
+			</div>
+			<div class="mb-3">
+				<label for="last_name_id" class="form-label">{{ form.last_name.label }}</label>
+				{{ form.last_name }}
+			</div>
+			  <div class="mb-3">
+				<label for="level_id" class="form-label">Class</label>
+				{{ form.level }}
+			</div>
+			  <div class="mb-3">
+				<label for="year_id" class="form-label">{{ form.session.label }}</label>
+				{{ form.session }}
+			</div>
+
+			<div class="mb-3">
+				<label for="department_id" class="form-label">{{ form.department.label }}</label>
+				{{ form.department }}
+			</div>
+			<p><a href="{% url 'condition' %}">Read Terms and Conditions</a></p>
+
+			<div class="form-check">
+				<label class="form-check-label" for="{{ form.accept_terms.id_for_label }}">
+					I accept the Terms and Conditions {{ form.accept_terms }}
+				</label>
+			</div>
+    <button type="submit" class="btn btn-primary" id="login-btn"><i class="fas fa-sign-in-alt"></i><small> SIGN UP | Next</small></button>
+
+		  </div>
+		  <div class="col-lg-6">
+			<h2>How to Enroll!</h2>
+			<div class="mb-3">
+<div class="mb-3">
+    <h1 class="lead p-2 bg-light">Complete Your FORM 1/3 Fields</h1>
+    <ol>
+        <li>1. Create a USERNAME: For login into your Account.</li>
+        <li>2. Enter your Valid Email Address.</li>
+        <li>3. Enter your Phone Number.</li>
+        <li>4. Create Login Password and Confirm Password Created.</li>
+    </ol>
+
+    <h1 class="lead p-2 bg-light">Complete Your Child’s Enrollment Info</h1>
+    <ol>
+        <li>5. Child’s First Name: (Please provide the applicant's first name.)</li>
+        <li>6. Child’s Last Name: (Please provide the applicant's last name.)</li>
+        <li>7. Intended Class: (Select your child's qualified class.)</li>
+        <li>8. Select Child’s Session: (Choose the session by number.)</li>
+        <li>9. Preferred Program: (Select your child's preferred program.)</li>
+        <li>10. Accept Terms and Condition: (Click on the checkbox, After Reading our policy review)</li>
+        <li>11. Create Account Successfully… (Proceed to FORM 2/3)</li>
+    </ol>
+
+    <h1 class="lead p-2 bg-light">Complete the FORM 2/3 Field</h1>
+    <ol>
+        <li>12. Upload Child’s Passport: (Upload a clear copy of Your Child's Passport Photo)</li>
+        <li>13. Enter Your Current Home Address, Nationality, State of Origin: (Make sure the Address is specific and Understandable to enable Ease location Tracking)</li>
+        <li>14. Fill the fields for Child’s Date of Birth, Weight, Height, Meal Allergy (Optional), and Upload medical report (Optional).</li>
+        <li>15. Select Preferred additional Service of your interest: i.e., School bus Service, Extra Classes, Laboratory Facilities, etc.</li>
+        <li>16. You can PROCEED to FORM 3/3</li>
+    </ol>
+
+    <h1 class="lead p-2 bg-light">FINALLY: Complete the FORM 3/3</h1>
+    <ol>
+        <li>17. The Form 3/3 Contains Parent’s Personal Information.</li>
+        <li>18. Parent’s First Name and Last Name.</li>
+        <li>19. Parent’s Occupations: (If Sensitive, Leave Field Blank)</li>
+        <li>20. Parent’s Alternative Mobile Number:</li>
+        <li>21. Parent’s Relationship with Child: Select from the Drop-down list.</li>
+    </ol>
+
+    <h1 class="lead p-2 bg-light">PAYMENT VERIFICATION PROCESS</h1>
+    <ol>
+        <li>22. Download Application Form.</li>
+		<li>23. Proceed to the Designated <strong>Hilltop International Group of School,</strong> to Validate:</li>
+        <ul>
+            <li>a. Admission Number</li>
+            <li>b. Subject Enrollment</li>
+            <li>c. Class Allocation</li>
+        </ul>
+    </ol>
+</div>
+			</div>
+		  </div>
+	  </div>
+  </form>
+  <br>
+  <span> Already Registered ? </span><a href="{% url 'login' %}" class="link">Login</a>
+</div>
+{% endblock content %}
+
+{% block js %}
+
+<script>
+  const loginFormEl = document.getElementById('login-form');
+  const loginBtnEl = document.getElementById('login-btn');
+
+  loginFormEl.addEventListener('submit', () => {
+    loginBtnEl.innerHTML = '<i class="fas fa-sign-in-alt"></i> Signining you in . . .';
+    loginBtnEl.classList.add("disabled");
+  })
+
+  $("#username_id").on("input", function () {
+    username = $(this).val();
+
+    $.ajax({
+      url: "/accounts/ajax/validate-username/",
+      data: {
+        username: username
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.is_taken) {
+          console.log(data.is_taken);
+          $('#message-wrapper').html(`<p class="my-2 text-danger"><span class="bg-error p-2"><b>${username}</b> already taken :( try another one </span></p>`)
+        }
+        else {
+          $('#message-wrapper').html(`<p class="my-2 text-success"><span class="bg-correct p-2"><b>${username}</b> is valid </span></p>`)
+        }
+      }
+
+    })
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,114 @@
+
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container3"  >
+    <div id="input-nav" class="p-2"><a href="{% url 'home' %}"> Home </a> Time-Table Management</div>
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Timetable</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        #timetable {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: gray;
+        }
+
+        .period {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-responsive table-shadow table-light table-striped m-0 mt-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="period">8:00 AM - 9:00 AM</td>
+                    <td>Math</td>
+                    <td>English</td>
+                    <td>Science</td>
+                    <td>Art</td>
+                    <td>Social Studies</td>
+                </tr>
+                <tr>
+                    <td class="period">9:15 AM - 10:15 AM</td>
+                    <td>English</td>
+                    <td>Science</td>
+                    <td>Math</td>
+                    <td>Social Studies</td>
+                    <td>Art</td>
+                </tr>
+                <tr>
+                    <td class="period">10:30 AM - 11:30 AM</td>
+                    <td>Break</td>
+                    <td>Break</td>
+                    <td>Break</td>
+                    <td>Break</td>
+                    <td>Break</td>
+                </tr>
+                <!-- Add more rows for additional periods -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+
+{% endblock content %}

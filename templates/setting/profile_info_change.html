@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div id="input-nav"><a style="color: orange;" href="{% url 'home' %}" class="primary1">Home</a>
+	|<strike style="color: blue;"href="" class="primary1">FORM 1/3</strike>
+	|<a  class="primary1"> FORM 2/3</a>
+	|<a style="color: gray;" class="primary1">FORM 3/3</a>
+</div>
+
+<p class="title-1"><i class="fas fa-book"></i>STAGE 2/3 | <strong>Update Personal Data | Other Services</strong></p>
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="form-title">Child's Personal Data</div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="{{ form.picture.id_for_label }}">Passport Photo *</label>
+                        {{ form.picture }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.address.id_for_label }}">Address / City *</label>
+                        {{ form.address }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.nationality.id_for_label }}">Nationality *</label>
+                        {{ form.nationality }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.state_of_origin.id_for_label }}">State of Origin *</label>
+                        {{ form.state_of_origin }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth *</label>
+                        {{ form.date_of_birth }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.weight.id_for_label }}">Weight *</label>
+                        {{ form.weight }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.height.id_for_label }}">Height *</label>
+                        {{ form.height }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.meal_allergic_comment.id_for_label }}">Meal Allergic Comment (Optional)</label>
+                        {{ form.meal_allergic_comment }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.medical_record.id_for_label }}">Medical Record (Optional)</label>
+                        {{ form.medical_record }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title">Other Services Offered</p>
+                <div class="container" style="margin: 20px;">
+                    <div class="form-group">
+                        Bus Services
+                        <label>Price: On Demand</label>
+                        <label for="{{ form.bus_service.id_for_label }}" >
+                        {{ form.bus_service }}
+                        </label>
+                        <span class="danger">{{ form.bus_service.errors }}</span>
+                    </div>
+
+                    <strong class="col-md-5" id="bus-details" style="display: none; color:blue;">
+                        Services Type
+                        <label for="{{ form.bus_service_type.id_for_label }}">
+                        {{ form.bus_service_type }}
+                        </label>
+                        <span class="danger">{{ form.bus_service_type.errors }}</span>
+                    </strong>
+
+                    <strong class="col-md-5" id="pickup-dropoff" style="display: none; color:green;">
+                        Pickup or Dropoff:
+                        <label for="{{ form.pickup_or_dropoff.id_for_label }}">
+                        {{ form.pickup_or_dropoff }}
+                        </label>
+                        <span class="danger">{{ form.pickup_or_dropoff.errors }}</span>
+                    </strong>
+                     <!-- Library Services -->
+                    <div class="form-group">
+                         Library Services:
+                        <label>Price: Free</label>
+
+                      <label for="{{ form.library_services.id_for_label }}">
+                        {{ form.library_services }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <!-- Computer Labs -->
+                        Computer Labs:
+                        <label>Price: Free</label>
+
+                      <label for="{{ form.computer_labs.id_for_label }}">
+                        {{ form.computer_labs }}
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <!-- Laboratory Facilities -->
+                        Laboratory Facilities:
+                        <label>Price: Free</label>
+
+                      <label for="{{ form.laboratory_facilities.id_for_label }}">
+                        {{ form.laboratory_facilities }}
+                      </label>
+                    </div>
+                      <!-- Academic Advising -->
+                    <div class="form-group">
+                        Academic Advising:
+                        <label>Price: Free</label>
+                      <label for="{{ form.academic_advising.id_for_label }}">
+                        {{ form.academic_advising }}
+                      </label>
+                    </div>
+                      <!-- Additional Services -->
+                    <div class="form-group">
+                        Counseling:
+                        <label>Price: Free</label>
+
+                      <label for="{{ form.counseling.id_for_label }}">
+                        {{ form.counseling }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Price: Free</label>
+                        Student Housing:
+                      <label for="{{ form.student_housing.id_for_label }}">
+                        {{ form.student_housing }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Price: On Demand</label>
+                        Financial Aid:
+                      <label for="{{ form.financial_aid.id_for_label }}">
+                        {{ form.financial_aid }}
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                        Cafeteria and Dining Services:
+                        <label>Price: On Demand</label>
+                      <label for="{{ form.cafeteria_services.id_for_label }}">
+                        {{ form.cafeteria_services }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                        Counseling and Mental Health Services:
+                        <label>Price: Free</label>
+                      <label for="{{ form.mental_health_services.id_for_label }}">
+                        {{ form.mental_health_services }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                         Tutoring Centers:
+                        <label>Price: On Demand</label>
+                      <label for="{{ form.tutoring_centers.id_for_label }}">
+                        {{ form.tutoring_centers }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                         Technology Support:
+                        <label>Price: On Demand</label>
+                      <label for="{{ form.technology_support.id_for_label }}">
+                        {{ form.technology_support }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                         Disability Services:
+                        <label>Price: On Demand</label>
+                      <label for="{{ form.disability_services.id_for_label }}">
+                        {{ form.disability_services }}
+                      </label>
+                    </div>
+                    <div class="form-group">
+                         International Student Services:
+                        <label>Price: On Demand</label>
+                      <label for="{{ form.international_student_services.id_for_label }}">
+                        {{ form.international_student_services }}
+                      </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center>
+        <button class="btn btn-outline-primary" type="submit">Next | Save</button>
+    </center>
+<script>
+    // Get references to the select elements and the divs to show/hide
+    const busServiceSelect = document.querySelector('select[name="bus_service"]');
+    const busDetailsDiv = document.getElementById('bus-details');
+    const pickupDropoffDiv = document.getElementById('pickup-dropoff');
+
+    // Add an event listener to the busServiceSelect
+    busServiceSelect.addEventListener('change', function () {
+        // Get the selected option value
+        const selectedValue = busServiceSelect.value;
+
+        // Hide/show the appropriate divs based on the selection
+        if (selectedValue === 'yes') {
+            busDetailsDiv.style.display = 'block';
+        } else {
+            busDetailsDiv.style.display = 'none';
+            pickupDropoffDiv.style.display = 'none';
+        }
+    });
+
+    // Add an event listener to the busTypeSelect (inside busDetailsDiv)
+    const busTypeSelect = document.querySelector('#bus-details select[name="bus_service_type"]');
+    busTypeSelect.addEventListener('change', function () {
+        const selectedBusType = busTypeSelect.value;
+
+        if (selectedBusType === 'one-way') {
+            pickupDropoffDiv.style.display = 'block';
+        } else {
+            pickupDropoffDiv.style.display = 'none';
+        }
+    });
+</script>
+
+</form>
+<style>
+    /* Add a border to the right of the form elements to indicate they are linked */
+    .form-group, strong {
+        color: navy;
+        border-right: 2px solid #000; /* Adjust the color and thickness as needed */
+        padding-right: 15px; /* Add some spacing on the right side of the form elements */
+        margin-right: 15px; /* Add some spacing on the right side of the form elements */
+        display: inline-block; /* Display form elements and strong elements side by side */
+        vertical-align: top; /* Align them vertically at the top */
+    }
+
+    /* Style the labels for each form group */
+    .form-group label, strong label {
+        display: block; /* Display labels as block elements */
+        margin-bottom: 5px; /* Add some spacing below labels */
+    }
+
+    /* Style the error messages */
+    .danger {
+        color: red; /* Set the color of error messages */
+    }
+</style>
+
+{% endblock content %}

@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav">
+    <a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i>
+    <a href="{% url 'admin_panel' %}" class="primary1">Admin Panel</a> <i>&rsaquo;</i> Send Note Message
+</div>
+
+<div class="title-1">Send Note Message</div>
+<div class="title-line"></div>
+
+
+</div>
+    <div class="table-responsive table-striped m-0 mt-2" style="width: 80%;">
+        <table class="table">
+            <tbody>
+                <tr>
+            <form class="search-form" action="" method="GET">
+                <div class="search-container">
+                    <input  class="au-input" type="text" id="search" name="q" placeholder="SEARCH ENGINE.... #phone, #Email, #username, " value="{{ request.GET.q }}" />
+                    <button class="btn2" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+<form method="GET">
+    <div class="table-responsive table-shadow table-light table-striped m-0 mt-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Filter By:</th>
+                    <th><span for="{{ filter_form.level.id_for_label }}"><strong>Level:</strong></span>{{ filter_form.level }}</th>
+                    <th><span for="{{ filter_form.session.id_for_label }}"><strong>Session:</strong></span>{{ filter_form.session }}</th>
+                    <th><span for="{{ filter_form.payment.id_for_label }}"><strong>Payment:</strong></span>{{ filter_form.payment }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    <button class="btn btn-primary" type="submit">Apply Filters</button>
+
+    </div>
+
+</form>
+<form method="POST">
+    {% csrf_token %}
+    <div class="table-responsive table-shadow table-light table-striped m-0 mt-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th><label for="select-all">Mark All</label> <input type="checkbox" id="select-all" /></th>
+                    <th style="color: navy"> PAYMENT STATUS </th>
+                    <th>Class</th>
+                    <th> Full Name </th>
+                    <th> Phone Number </th>
+                    <th> Email </th>
+                    <th> Admission No. </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ forloop.counter }}.</td>
+                    <td scope="row">
+                        <input type="checkbox" name="selected_students" value="{{ student.id }}">
+                    </td>
+                    <td>{{ student.payment }}</td>
+
+                    <td>{{ student.level }} {{ student.session }}</td>
+                    <td><a href="{% url 'profile_single' student.student.id %}">{{ student.student.get_full_name }}</a></td>
+                    <td>{{ student.student.phone }}</td>
+                    <td>{{ student.student.email }}</td>
+                    <td>{{ student.Admission_id }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">
+                        <span class="text-danger">
+                            <i class="far fa-frown"></i> No Student.
+                            {% if request.user.is_superuser %}
+                            <a href="{% url 'add_student' %}">
+                                <i class="primary" style="font-size: 22px;">Add Student Now.</i>
+                            </a>
+                            {% endif %}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if students.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ students.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ students.number }} of {{ students.paginator.num_pages }}.
+        </span>
+
+        {% if students.has_next %}
+            <a href="?page={{ students.next_page_number }}">next</a>
+            <a href="?page={{ students.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+    <div class="row justify-content-center mt-3 mb-5">
+        <div class="border-bottom">
+            <label for="id_title">Title:</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="text-danger">
+                    {% for error in form.title.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-0 mb-2">
+        <div class=" border-bottom">
+            <label for="id_content">Content:</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+                <div class="text-danger">
+                    {% for error in form.content.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-0 mb-2">
+        <div class="border-bottom">
+     <button class="btn btn-success mt-0" type="submit">Send Message to Selected Students!</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the "Mark All" checkbox and all student checkboxes
+        var markAllCheckbox = document.getElementById('select-all');
+        var studentCheckboxes = document.querySelectorAll('input[type="checkbox"][name="selected_students"]');
+
+        // Add event listener to the "Mark All" checkbox
+        markAllCheckbox.addEventListener('change', function() {
+            // Iterate over all student checkboxes and set their checked property
+            studentCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = markAllCheckbox.checked;
+            });
+        });
+    });
+</script>
+
+<style>
+.search-container {
+    position: relative;
+}
+
+.au-input {
+    padding-right: 40px;
+}
+.btn2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 5px 5px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.btn2 i {
+    margin-right: 5px;
+}
+
+    .form-block {
+    margin-bottom: 10px;
+}
+
+label {
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border: none;
+}
+.au-input {
+    width: 100%;
+    border: 2px solid navy;
+    border-radius: 20px;
+}
+</style>
+
+{% endblock content %}

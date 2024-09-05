@@ -1,0 +1,149 @@
+{% load static %}
+
+<ul id="top-navbar" >
+	<div class="container">
+
+		<div class="nav-wrapper">
+				<div>
+					<span class="toggle-btn" onclick="toggleSidebar()">
+						<span class="fas fa-bars"></span>
+					</span>
+				</div>
+
+				<li class="table-responsive table-striped m-0 mt-0" style="width: 80%;">
+					<table class="table">
+						<tbody>
+							<tr>
+							<form class="search-form" action="{% url 'query' %}" method="GET">
+								<div class="search-container">
+									<input type="text" id="primary-search" name="q"  value="{{ request.GET.q }}"
+											placeholder="Search All...  #News, #Events" required />
+									<button class="btn2" type="submit">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</form>
+							</tr>
+						</tbody>
+					</table>
+				</li>
+				<li class="">
+					{% if request.user.is_lecturer or request.user.is_student or request.user.is_superuser %}
+					<button class="btn btn-sm " type="button" id="dropdownMenuButton" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						<img class="profile-pic" src="{{ request.user.picture.url }}">
+						<div class="" style="font-size: 12px;text-align: center;font-weight: bold;">⩔</div>
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<p class="container text-muted-xs text-center">
+							Last login: {{ request.user.last_login|date }}</p>
+
+						{% if request.user.is_lecturer or request.user.is_student %}
+						<a class="dropdown-item" href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>My
+							Subjects</a>
+						{% endif %}
+
+						{% if request.user.is_superuser %}
+						<a class="dropdown-item" href="{% url 'admin_panel' %}"><i class="fas fa-user-tie"></i>Admin
+							Panel</a>
+						{% else %}
+						{% if request.user.is_student %}
+
+						<a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user"></i>Profile</a>
+						{% endif %}
+						{% endif %}
+
+						<hr>
+							<a class="btn btn-secondary" href="{% url 'logout' %}">
+								<i class="fas fa-sign-out-alt"></i> Signout
+							</a>
+					</div>
+					{% else %}
+
+					{% endif %}
+				</li>
+					{% if request.user.is_lecturer or request.user.is_student %}
+				<li>
+					<a href="{% url 'view_messages' %}">
+						<div class="">
+							{% if user.is_authenticated %}
+								{% if unread_message_count %}
+							<div class="blink">
+								<div class="notification">
+									<a href="{% url 'view_messages' %}" class="fas fa-bell" style="color: white; display: flex;
+									align-items: center; justify-content: center;">
+										{% if unread_message_count|length == 2 and unread_message_count == '+9' %}
+											<p style="color: lightgray"> +9</p>
+										{% else %}
+											{{ unread_message_count }}
+										{% endif %}
+									</a>
+								</div>
+							</div>
+								{% else %}
+								{% endif %}
+							{% endif %}
+						</div>
+					</a>
+				</li>
+								{% endif %}
+		</div>
+	</div>
+</ul>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <script>
+        // Select all alert elements
+        var alerts = document.querySelectorAll('.alert');
+
+        // Loop through each alert element
+        alerts.forEach(function(alert) {
+            // Fade out the alert after 1 second
+            setTimeout(function() {
+                alert.style.transition = 'opacity 1s ease';
+                alert.style.opacity = '0';
+                // Remove the alert from the DOM after the transition
+                setTimeout(function() {
+                    alert.remove();
+                }, 700); // Wait for the transition duration (1s) before removing the element
+            }, 3000); // Wait for 3 seconds before starting the fade out
+        });
+    </script>
+{% endif %}
+
+
+<script>
+    const searchInput = document.getElementById('primary-search');
+
+    searchInput.addEventListener('input', () => {
+        if (searchInput.value.trim() !== '') {
+            searchInput.style.borderColor = 'red'; // Change the border color to red
+        } else {
+            searchInput.style.borderColor = '#ccc'; // Restore the default border color
+        }
+    });
+</script>
+<style>
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    .blink {
+        animation: blink 1s infinite;
+        z-index: 1;
+    }
+</style>

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Admin Panel</div>
+<div class="title-1"><i class="fas fa-user-tie"></i>Admin Panel</div>
+<style>
+  .admin-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .menu-item {
+    background-color: lightgray;
+    color: navy;
+    border-radius: 15px;
+    padding: 10px;
+  }
+
+  .menu-item a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .switch-container {
+    background-color: lightgray;
+    color: navy;
+    border-radius: 15px;
+    padding: 20px;
+  }
+
+  .switch-label {
+    background-color: lightgray;
+    color: navy;
+  }
+
+  .button {
+    background-color: lightgray;
+    color: navy;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+</style>
+
+<div class="admin-panel">
+    <div class="menu-item">
+        <a href="{% url 'lecturer_list' %}">
+            <h5>👨🏻‍⚖️ My Teachers</h5>
+            <div>CRUD (Create, Retrieve, Update & Delete) Teachers</div>
+            <hr>
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'student_list' %}">
+            <h5>👨🏻‍⚖️ Student</h5>
+            <div>CRUD (Create, Retrieve, Update & Delete) Student</div>
+            <hr>
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'session_list' %}">
+            <h5>👨🏻‍⚖️ Session</h5> CRUD (Create, Retrieve, Update & Delete) Session
+            <hr>
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'semester_list' %}">
+            <h5>👨🏻‍⚖️ Term</h5> CRUD (Create, Retrieve, Update & Delete) Term
+            <hr>
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'create_message' %}">
+            <h5>👨🏻‍⚖️ Send Message</h5> CRUD (Create, Retrieve, Update & Delete) Send Notes
+            <hr>
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a href="{% url 'add_course' %}">
+            <h5>👨🏻‍⚖️ Subjects</h5> CRUD (Create, Retrieve, Update & Delete) Add Subject
+            <hr>
+        </a>
+    </div>
+
+    <div class="switch-container">
+            <label class="switch switch-text switch-success switch-pill" style="float: right;">
+              <input type="checkbox" class="switch-input" checked="true">
+              <span data-on="On" data-off="Off" class="switch-label"></span>
+              <span class="switch-handle"></span>
+            </label>
+            <p style="color: navy;"><span>&LongRightArrow;</span> Switch
+                <i class="info-text bg-success">ON</i> or <i class="info-text bg-danger">OFF</i>
+            </p><hr>
+
+        <p style="color: navy;"><a class="button" href="{% url 'programs' %}"> Programs &raquo;</a></p>
+        <p style="color: navy;"><span>&LongRightArrow;</span> CRUD (Create, Retrieve, Update & Delete) programs</p>
+        <hr>
+        <p style="color: navy;"><a class="button" href="{% url 'course_allocation_view' %}"> Subject Allocations &raquo;</a></p>
+        <p style="color: navy;"><span>&LongRightArrow;</span> CRUD (Create, Retrieve, Update & Delete) Subject allocations</p>
+        <hr>
+        <p style="color: navy;"><a class="button" href="{% url 'add_item' %}"> News & Events &raquo;</a></p>
+        <p style="color: navy;"><span>&LongRightArrow;</span> CRUD (Create, Retrieve, Update & Delete) News & Events</p>
+    </div>
+</div>
+
+{% endblock %}

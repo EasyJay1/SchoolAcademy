@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} | DjangoSMS{% endblock title %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> {{ user.get_full_name }}</div>
+
+
+<div class="btn-flex">
+    <a class="edit-btn" href="{% url 'generate_pdf' %}" target="_blank">
+    <i class="fas fa-download"></i>
+    <span class="mobile-hide">Download Form as PDF</span>
+</a>
+
+    <a class="edit-btn" href="{% url 'change_password' %}"><i class="fas fa-lock"></i><span class="mobile-hide">
+            Change password</span></a>
+</div>
+
+<div class="row">
+
+    <div class="col-md-3 mx-auto">
+        <div class="card">
+            <img src="{{ user.picture.url }}" class="dashboard-img">
+            <div class="program-description">
+                <p><strong>Full Name: </strong>{{ user.get_full_name|title }}</p>
+<hr>
+                                {% if courses %}
+
+                                <strong>Admission No.: </strong><strong> {{  student.Admission_id  }}</strong>
+                {% else %}
+
+                <p><strong>Admission Number:</strong> <i style="color: red;">Your Number will Display Upon
+                    VALIDATION OF PAYMENT</i></p>
+<div class="btn-flex">
+    <a class="edit-btn" href="{% url 'assemble_payment' %}" target="_blank">
+    <i class="fas fa-wallet"></i>
+    <span class="mobile-hide">Pay Now</span>
+</a>
+</div>
+<hr>
+                                                {% endif %}
+
+                <p><strong>Role: </strong>
+                    {{ user.get_user_role }}
+                </p>
+                    <p><strong>Login ID.:</strong> {{ user.username|slice:":1" }}***{{ user.username|slice:"-3:" }}</p>
+
+            </div>
+        </div>
+{% if user.is_student %}
+    <p class="title-info"><i class="fas fa-graduation-cap"></i> Other Services Info</p>
+    <div class="dashboard-description">
+        <p><strong>Computer Labs:</strong> {{ user.computer_labs }}</p>
+        <p><strong>Library Services:</strong> {{ user.library_services }}</p>
+        <p><strong>Counseling:</strong> {{ user.counseling }}</p>
+        <p><strong>Student Housing:</strong> {{ user.student_housing }}</p>
+        <p><strong>Financial Aid:</strong> {{ user.financial_aid }}</p>
+        <p><strong>Cafeteria and Dining Services:</strong> {{ user.cafeteria_services }}</p>
+        <p><strong>Counseling and Mental Health Services:</strong> {{ user.mental_health_services }}</p>
+        <p><strong>Tutoring Centers:</strong> {{ user.tutoring_centers }}</p>
+        <p><strong>Technology Support:</strong> {{ user.technology_support }}</p>
+        <p><strong>Disability Services:</strong> {{ user.disability_services }}</p>
+        <p><strong>International Student Services:</strong> {{ user.international_student_services }}</p>
+        <p><strong>Laboratory Facilities:</strong> {{ user.laboratory_facilities }}</p>
+        <p><strong>Academic Advising:</strong> {{ user.academic_advising }}</p>
+        <p><strong>Bus Service:</strong> {{ user.bus_service }}</p>
+        <p><strong>Bus Service Type:</strong> {{ user.bus_service_type }}</p>
+        <p><strong>Pickup or Dropoff:</strong> {{ user.pickup_or_dropoff }}</p>
+
+    </div>
+{% endif %}
+
+    </div>
+
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            {% if user.is_student %}
+            <p class="form-title"><i class="fas fa-book-open"></i>Enrolled Suject</p>
+            <div class="dashboard-description">
+                {% if courses %}
+                    <div class="flex">
+                        {% for course in courses %}
+                            <div class="flex"><a class="edit-btn" href="{{ course.get_absolute_url }}">{{ course }}</a></div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                        <p><i class="far fa-frown" style="color: red;"> Your Enrolled Subject will Display Upon
+                           * PAYMENT VALIDATION *</i></p>
+                <div class="btn-flex">
+                    <a class="edit-btn" href="{% url 'assemble_payment' %}" target="_blank">
+                    <i class="fas fa-wallet"></i>
+                    <span class="mobile-hide">Pay Now</span>
+                </a>
+                </div>
+                <hr>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% if user.is_lecturer %}
+            <p class="form-title"><i class="fas fa-book-open"></i>My Subjects</p>
+            <div class="dashboard-description">
+                {% if courses %}
+                <div class="flex">
+                    {% for course in courses %}
+                    <div class="flex"><a class="edit-btn" href="{{ course.get_absolute_url }}">{{ course }}</a></div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-danger"><i class="far fa-frown"></i>No Books Yet!</div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <p class="title-info"><i class="fas fa-user"></i> Personal Info</p>
+            <hr>
+            <div class="dashboard-description">
+                        {% for parent in all_notes %}
+                            <li>
+                                <strong>Parent's Full Name: </strong>{{ parent.first_name }} {{ parent.last_name }} - ({{ parent.relation_ship }})
+                            </li>
+                        {% empty %}
+                    </ul>
+                        <p style="color: red;">No parents yet; Please Complete Your Registration. <a href="{% url 'add_parent' %}">Here</a></p>
+                    {% endfor %}
+<strong>Sharing Email With:</strong>
+<li>
+  {% for user in users_with_same_email %}
+    <li>
+      <strong>#{{ forloop.counter }}:</strong>
+      {{ user.user.get_full_name }} ({{ user.user.username|slice:":1" }}***{{ user.user.username|slice:"-3:" }})
+    </li>
+                        {% empty %}
+                        <i style="color: red;">No Brother/Sister is Sharing Email You! </i>
+
+  {% endfor %}
+</ul>
+
+
+            </div>
+            {% if user.is_student %}
+            <p class="title-info"><i class="fas fa-graduation-cap"></i> Applicant Info</p>
+            <div class="dashboard-description">
+                <p><strong>School: </strong>Hilltop International Group of School</p>
+                {% if current_semester and current_session %}
+                <p><strong>Academic Term:</strong> {{ current_semester }} Term </p>
+                <p><strong>Academic Year: </strong>{{level.level}} {{ student.session }}</p>
+                {% else %}
+                <p><strong>Academic Year: </strong> <i style="color: red;">Not Updated Yet...</i></p>
+                {% endif %}
+                <p><strong>Date Of Birth: </strong> {{ user.date_of_birth }}</p>
+                <p><strong>Weight:</strong> {{ user.weight }}</p>
+                <p><strong>Height:</strong> {{ user.height }}</p>
+                <p><strong>Meal Allergic Comment:</strong> {{ user.meal_allergic_comment }}</p>
+                <p><strong>Medical Record:</strong> <a href="" >{{ user.medical_record }}</a></p>
+
+            </div>
+            {% endif %}
+            <p class="title-info"><i class="fas fa-phone-square-alt"></i> Contact Info</p>
+            <div class="dashboard-description">
+                {% if user.email %}
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                {% endif %}
+                {% if user.phone %}
+                    <p><strong>Tel No.:</strong> {{ user.phone }}</p>
+                {% endif %}
+                {% if user.nationality %}
+                    <p><strong>Nationality:</strong> {{ user.nationality }}</p>
+                {% endif %}
+                {% if user.state_of_origin %}
+                    <p><strong>State Of Origin:</strong> {{ user.state_of_origin }}</p>
+                {% endif %}
+                {% if user.address %}
+                    <p><strong>Current Home Address/city:</strong> {{ user.address }}</p>
+                {% endif %}
+            </div>
+            <div class="dashboard-description">
+            {% if not user.nationality and not user.state_of_origin and not user.address %}
+                <p style="color: red;"><i>STAGE 2/3 FORM MISSING!</i><br>Please complete your registration. <a href="{% url 'edit_profile' %}">Click Here.</a></p>
+            {% endif %}
+            </div>
+
+            <p class="title-info"><i class="fa fa-calendar-day"></i> Important Dates</p>
+            <div class="dashboard-description">
+                <p><strong>Last login:</strong> {{ user.last_login }}</p>
+                <p><strong>Registered Date:</strong> {{ user.date_joined|date }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mx-auto"></div>
+
+</div>
+{% endif %}
+
+{% endblock content %}

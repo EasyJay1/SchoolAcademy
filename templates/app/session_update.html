@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> 
+    <a href="{% url 'session_list' %}" class="primary1">Session List</a> <i>&rsaquo;</i> Session Add & update</div>
+<br>
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card pb-3">
+            <p class="form-title">Session Add & update Form</p>
+            <div class="container"><br>
+                <form action="" method="POST">{% csrf_token %}
+                    {{ form }}
+                    <input class="btn btn-primary" type="submit" value="Save">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

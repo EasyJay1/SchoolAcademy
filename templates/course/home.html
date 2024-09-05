@@ -1,0 +1,578 @@
+
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container3"  >
+
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+            <img src="{% static 'img/school3.jfif' %}" alt="slide na">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'img/school2.jfif' %}" alt="2">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'img/school4.jfif' %}" alt="3">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'img/school6.jfif' %}" alt="4">
+      </div>
+
+    </div>
+
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+<div style="padding:20px;"></div>
+
+					{% if request.user.is_lecturer or request.user.is_student or request.user.is_superuser %}
+    <div class="text-in">
+        <div class="slider">
+            <p class="slide-in-text"></p>
+        </div>
+    </div>
+						{% else %}
+
+<span class="column1" >
+        <a href="" class="glow">
+            <img src="{% static 'img/open.png' %}" width="50%" alt="Logo Django LMS">
+        </a>
+          <div class="timer">
+            <span class="day">🕐:</span>
+            <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+          </div>
+
+
+						{% endif %}
+    <div class="column2" >
+        <a href="" class="glow">
+            <img src="{% static 'img/help.png' %}" width="30%" alt="Logo Django LMS">
+        </a>
+    </div>
+</span>
+
+<button class="chatbot-toggler">
+  <span class="material-symbols-rounded">mode_comment</span>
+  <span class="material-symbols-outlined">close</span>
+</button>
+<div class="body" style="z-index: 999;">
+  <div class="chatbot" style="border: 2px solid navy; width: 80%;">
+    <header>
+      <h2>Live Chat With Admin</h2>
+      <span class="close-btn material-symbols-outlined">close</span>
+    </header>
+    <ul class="chatbox">
+      <li class="chat incoming">
+        <span class="material-symbols-outlined">Admin</span>
+        <p>Hi there 👋<br>What Are Your Full Names?</p>
+      </li>
+    </ul>
+    <div class="chat-input">
+      <textarea placeholder="Enter a message..." spellcheck="true" required></textarea>
+      <span id="send-btn" class="material-symbols-rounded">send</span>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+    const c = (selector) => document.querySelector(selector);
+const chatbox = c('.chatbox');
+const chatInput = c('.chat-input textarea');
+const sendChatBtn = c('.chat-input span');
+let userMessage = null;
+const API_KEY = "PASTE-YOUR-API-KEY";
+const inputInitHeight = chatInput.scrollHeight;
+
+const createChatLi = (message, className) => {
+  const chatLi = document.createElement("li");
+  chatLi.classList.add("chat", `${className}`);
+  chatLi.innerHTML = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">person</span><p></p>`;
+  chatLi.querySelector("p").textContent = message;
+  return chatLi;
+};
+
+const generateResponse = (chatElement) => {
+  const API_URL = "https://api.openai.com/v1/chat/completions";
+  const messageElement = chatElement.querySelector("p");
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: userMessage }],
+    })
+  };
+
+  fetch(API_URL, requestOptions)
+    .then(res => res.json())
+    .then(data => {
+      messageElement.textContent = data.choices[0].message.content.trim();
+    })
+    .catch(() => {
+      messageElement.classList.add("error");
+      messageElement.textContent = "Oops! Something went wrong. Please try again. Or Contact Admin @ 07062390730 ";
+    })
+    .finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+};
+
+const handleChat = () => {
+  userMessage = chatInput.value.trim();
+  if (!userMessage) return;
+  chatInput.value = "";
+  chatInput.style.height = `${inputInitHeight}px`;
+  chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+  chatbox.scrollTo(0, chatbox.scrollHeight);
+
+  setTimeout(() => {
+    const incomingChatLi = createChatLi("Typing...", "incoming");
+    chatbox.appendChild(incomingChatLi);
+    chatbox.scrollTo(0, chatbox.scrollHeight);
+    generateResponse(incomingChatLi);
+  }, 600);
+};
+
+chatInput.addEventListener("input", () => {
+  chatInput.style.height = `${inputInitHeight}px`;
+  chatInput.style.height = `${chatInput.scrollHeight}px`;
+});
+
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+    e.preventDefault();
+    handleChat();
+  }
+});
+
+sendChatBtn.addEventListener("click", handleChat);
+c('.close-btn').addEventListener("click", () => document.body.classList.remove("show-chatbot"));
+c('.chatbot-toggler').addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+
+</script>
+<style>
+    /* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+* {
+  font-family: "Poppins", sans-serif;
+}
+.chatbot-toggler {
+  position: fixed;
+  bottom: 30px;
+  right: 35px;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: navy;
+  transition: all 0.2s ease;
+}
+body.show-chatbot .chatbot-toggler {
+  transform: rotate(90deg);
+}
+.chatbot-toggler span {
+  color: #fff;
+  position: absolute;
+}
+.chatbot-toggler span:last-child,
+body.show-chatbot .chatbot-toggler span:first-child  {
+  opacity: 0;
+}
+body.show-chatbot .chatbot-toggler span:last-child {
+  opacity: 1;
+}
+.chatbot {
+  position: fixed;
+  right: 35px;
+  bottom: 90px;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: bottom right;
+  box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
+              0 32px 64px -48px rgba(0,0,0,0.5);
+  transition: all 0.1s ease;
+}
+body.show-chatbot .chatbot {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.chatbot header {
+  padding: 16px 0;
+  position: relative;
+  text-align: center;
+  color: white;
+  background: navy;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.chatbot header span {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  display: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+header h2 {
+  font-size: 1.4rem;
+}
+.chatbot .chatbox {
+  overflow-y: auto;
+  height: 510px;
+  padding: 30px 20px 100px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar {
+  width: 6px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 25px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+.chatbox .chat {
+  display: flex;
+  list-style: none;
+}
+.chatbox .outgoing {
+  margin: 20px 0;
+  justify-content: flex-end;
+}
+.chatbox .incoming span {
+  width: 32px;
+  height: 32px;
+  color: white;
+  cursor: default;
+  text-align: center;
+  line-height: 32px;
+  align-self: flex-end;
+  background: navy;
+  border-radius: 4px;
+  margin: 0 10px 7px 0;
+}
+.chatbox .chat p {
+  white-space: pre-wrap;
+  padding: 12px 16px;
+  border-radius: 10px 10px 0 10px;
+  max-width: 75%;
+  color: white;
+  font-size: 0.95rem;
+  background: navy;
+}
+.chatbox .incoming p {
+  border-radius: 10px 10px 10px 0;
+}
+.chatbox .chat p.error {
+  color: #721c24;
+  background: #f8d7da;
+}
+.chatbox .incoming p {
+  color: white;
+  background: navy;
+}
+.chatbot .chat-input {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 3px 20px;
+  border-top: 1px solid #ddd;
+}
+.chat-input textarea {
+  height: 55px;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  max-height: 180px;
+  padding: 15px 15px 15px 0;
+  font-size: 0.95rem;
+}
+.chat-input span {
+  align-self: flex-end;
+  color: #724ae8;
+  cursor: pointer;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  font-size: 1.35rem;
+}
+.chat-input textarea:valid ~ span {
+  visibility: visible;
+}
+
+@media (max-width: 490px) {
+  .chatbot-toggler {
+    right: 20px;
+    bottom: 20px;
+  }
+  .chatbot {
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    border-radius: 0;
+    width: 100%;
+  }
+  .chatbot .chatbox {
+    height: 90%;
+    padding: 25px 15px 100px;
+  }
+  .chatbot .chat-input {
+    padding: 5px 15px;
+  }
+  .chatbot header span {
+    display: block;
+  }
+}
+</style>
+<style>
+    body {
+        background-image: url('{% static "img/back-aside.JPEG" %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+</style>
+  <style>
+    .btn {
+            justify-content: center;
+            width: 100%;
+            display: flex;
+            position: relative;
+            z-index: 999; /* Set the z-index to a high value to bring the navbar to the front */
+
+    }
+    .carousel-item img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+    }
+@media screen and (max-width: 768px) {
+        .carousel-item img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    .free {
+      width: 55%;
+    }
+}
+.free {
+    position: absolute; /* Set position to relative for positioning context */
+}
+
+/* Apply styles to the .alert class */
+.alert {
+    position: absolute; /* Position the .alert image absolutely */
+    top: 0;
+    right: 0;
+    width: 100%; /* Make the .alert image cover the entire width */
+    height: 100%; /* Make the .alert image cover the entire height */
+    object-fit: cover; /* Maintain aspect ratio and cover entire container */
+    z-index: 1; /* Ensure the .alert is behind other content */
+
+}
+
+  </style>
+  <script>
+    $(document).ready(function() {
+      $('#myCarousel').carousel({
+        interval: 3000
+      });
+    });
+  </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <script src="script.js" defer></script>
+<style>
+
+.timer {
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+}
+
+.timer span {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  margin: 0 5px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.labels {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.labels span {
+  margin: 0 5px;
+}
+
+.days, .hours, .minutes, .seconds {
+  animation: countdown 1s linear infinite;
+}
+
+@keyframes countdown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+</style>
+  <script>
+    // Update the clock every second
+    const clockTimer = setInterval(() => {
+      // Get the current date and time
+      const now = new Date();
+
+      // Get the hours, minutes, and seconds
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      // Display the current time
+      document.querySelector('.hours').textContent = formatTime(hours);
+      document.querySelector('.minutes').textContent = formatTime(minutes);
+      document.querySelector('.seconds').textContent = formatTime(seconds);
+    }, 1000);
+
+    // Function to format the time values with leading zeros
+    function formatTime(time) {
+      return time.toString().padStart(2, '0');
+    }
+  </script>
+<style>
+    .color-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+    }
+
+    .bg-purple {
+        background-color: green;
+    }
+
+    /* CSS to handle text wrapping within card */
+    .card-text {
+        overflow-wrap: break-word;
+    }
+
+    /* Blinking effect */
+    .blinking-indicator {
+        animation: blink 1s infinite alternate; /* Blinking animation */
+    }
+
+    /* Define the blinking animation */
+    @keyframes blink {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+
+/* Add text wrapping to the slide-in-text */
+.slide-in-text {
+    margin: 0;
+    padding: 0;
+        font-weight: bold;
+    font-size: 24px;
+    color: navy;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) for text that overflows */
+}
+
+/* Adjust the width of the slider */
+.slider {
+    transform: rotateY(0);
+    transform-origin: left;
+    transition: all 1s;
+    overflow: hidden;
+
+}
+
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.querySelector(".slider");
+    const text = document.querySelector(".slide-in-text");
+
+    // Function to slide in the text
+    function slideIn() {
+        slider.style.width = "100%";
+        slider.style.transform = "rotateY(0)";
+    }
+
+    // Function to auto-write the text
+    function autoWriteText() {
+        const textToWrite = "WELCOME ONBOARD";
+        let index = 0;
+
+        function write() {
+            if (index < textToWrite.length) {
+                text.textContent += textToWrite.charAt(index);
+                index++;
+                setTimeout(write, 100); // Adjust the delay as needed
+            }
+        }
+
+        write();
+    }
+
+    // Trigger the slide-in and auto-write effect
+    slideIn();
+    setTimeout(autoWriteText, 1000); // Delay to start auto-writing after sliding in
+});
+
+</script>
+
+{% endblock content %}

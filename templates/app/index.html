@@ -1,0 +1,527 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<head>
+<style>
+    .container {
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+    }
+
+    .container1 {
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden; /* Clear floats */
+
+    }
+
+    .column {
+        flex-basis: 50%; /* Adjust width according to your needs */
+        padding: 5px;
+        border-radius: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .column1 {
+        flex-basis: calc(50% - 20px); /* Two columns per row */
+        padding: 5px;
+        width: 7.5rem;
+        border-radius: 25px;
+        box-sizing: border-box;
+        height: 300px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+        .column {
+            flex-basis: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    }
+</style>
+<style>
+body {
+      background-color: rgba(157, 220, 223, 0.3);
+    }
+</style>
+
+<style>
+    .image-link {
+    display: inline-block;
+    position: relative;
+    width: 70%; /* Adjust as needed */
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.gif-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.overlay-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+</style>
+  <style>
+    .containerimg {
+      width: 100%;
+      height: 15.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .containerimg img {
+      width: 100%;
+      height: 100%;
+      border-top-left-radius: 25px; /* Radius for bottom left corner */
+      border-top-right-radius: 25px; /* Radius for bottom right corner */
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .containerimg img.active {
+      opacity: 1;
+    }
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Dark opacity */
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+
+  </style>
+
+      <style>
+    /* CSS for the chat box */
+    .chat-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    .chat-header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      cursor: pointer;
+    }
+
+    .chat-body {
+      padding: 10px;
+    }
+
+    .chat-form {
+      display: none;
+    }
+
+    .chat-form textarea {
+      width: calc(100% - 16px);
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .chat-form button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: #fff;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .chat-button img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 300px;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.10), 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.70);
+}
+
+.video-container h5 {
+    text-align: center;
+    color: navy;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+  </style>
+
+</head>
+<div class="parking">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 order-md-2 order-sm-1" style="position: relative; background-image: url('/static/img/jif.gif');
+        background-size: cover; background-position: right; height: 550px; display: flex; flex-direction: column;
+        justify-content: flex-end;">
+                <a href="{% url 'register' %}" style="text-align: center; z-index: 11;" class="button"><i>Enroll Now!</i></a>
+
+            <div style="position: absolute; top: 0; left: 0%; width: 50%; height: 100%; background: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(9,0,0,0.5), rgba(9,0,0,10.5)); z-index: 1;"></div>
+            <div class="software-container" style="text-align: center; color: white;">
+                <i>The Ultimate Education Management System for Universal Basic Schools.</i>
+                <i class="tagline">Empowering Educators, Simplifying Administration</i>
+                <div class="features">
+                    <i>Features:</i>
+                    <ul>
+                        <li>⊛ Comprehensive curriculum templates and resources</li>
+                        <li>⊛ Seamless integration with all devices and platforms</li>
+                        <li>⊛ Streamlined student and staff management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6  order-md-1 order-sm-2" style="
+         background: linear-gradient(to right, #94c4fc,#3399ff,
+          #003366,#1f1f29,#090000);   padding: 20px;">
+
+            <div class="software-container">
+                <div class="" style="position: relative; padding-top: 60px;">
+                    {% if user.is_authenticated %}
+
+
+                        <div class="video-container">
+                        <h5 class="row justify-content-center">👋🏻 Hello! I'm The Director's🤝🏻</h5>
+                            <iframe src="https://www.youtube.com/embed/Ks8My0gyrNM"
+                                    title="Welcome to School" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+                                    encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    {% else %}
+                        <div  style=" border-radius: 25px; padding: 10px;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+                                background-color: rgba(255, 255, 255, 0.5);">
+                            <div style="border-radius: 20px 20px 0 0; padding: 10px; text-align: center;
+                            background-image: linear-gradient(to bottom, #007bff, #0056b3); color: white; font-weight: bold;"
+                                 class="login-title">
+                                <i class="fas fa-lock"></i> Student Login
+                            </div>
+                            <br>
+
+                                <form style="text-align: center;" action="" method="POST" id="login-form">{% csrf_token %}
+                                    <div class="form-group px-3">
+                                        <div style="position: relative;">
+                                            <label for="username_id" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 1;"><i class="fas fa-address-card"></i></label>
+                                            <input type="text" name="username" placeholder="Enter Username" id="username_id" class="form-control" style="padding-left: 30px; z-index: 0;" required>
+                                        </div>
+                                        <div id="message-wrapper"></div>
+                                    </div>
+                                    <div class="form-group px-3">
+                                        <div style="position: relative;">
+                                            <label for="password_id" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 1;"><i class="fas fa-key"></i></label>
+                                            <input type="password" name="password" id="password_id" placeholder="Enter Password" class="form-control" style="padding-left: 30px; z-index: 0;" required>
+                                        </div>
+                                    </div>
+
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            {% if message.tags == 'error' %}
+                                                <div class="alert alert-danger">
+                                                    <i class="fas fa-exclamation-circle"></i>{{ message }}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <button  type="submit" class="button" id="login-btn"><i class="fas fa-sign-in-alt"></i><small> SIGN IN</small></button>
+                                </form>
+                                <br>
+                                <a style="color: navy; font-weight: bold;" href="{% url 'reset' %}" class="btn-flex">Forgot password ?</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<body >
+    <div class="row" style="position: relative; padding:20px; 20px; 0px;  height: 10%; background: linear-gradient(to top, rgba(0,0,0,0),
+    rgba(0,0,0,0), rgba(0,0,0,0), rgba(9,0,0,0.5), rgba(9,0,0,3.5));"><strong>Gallery & ADS</strong></div>
+
+    <div class="container1">
+        <div class="column1">
+        <a href="">
+            <div class="containerimg">
+              <img src="{% static 'img/logos.png' %}" class="active">
+              <img src="{% static 'img/bac.gif' %}">
+              <img src="{% static 'img/enroll.png' %}">
+              <div class="overlay">Start Your Child's Best Learning Experience</div>
+            </div>
+        </a>
+        <div>
+          <a style="padding: 20px;" href="" class=""><i class="fas fa-newspaper"></i> Ads</a>
+        </div>
+        </div>
+        <div class="column1">
+        <a href="">
+            <div class="containerimg">
+              <img src="{% static 'img/bck.jpg' %}" class="active">
+              <img src="{% static 'img/ba.gif' %}">
+              <img src="{% static 'img/bac.gif' %}">
+              <div class="overlay">Beauty Of Designs</div>
+            </div>
+        </a>
+        <div>
+          <a style="padding: 20px;" href="" class=""><i class="fas fa-newspaper"></i> Ads</a>
+        </div>
+        </div>
+        <div class="column1">
+        <a href="">
+            <div class="containerimg">
+              <img src="{% static 'img/ros.gif' %}" class="active">
+              <img src="{% static 'img/ha.jpg' %}">
+              <img src="{% static 'img/rose.gif' %}">
+              <div class="overlay">In The Spirit of ONENESS</div>
+            </div>
+        </a>
+        <div>
+          <a style="padding: 20px;" href="" class=""><i class="fas fa-newspaper"></i> Ads</a>
+        </div>
+        </div>
+        <div class="column1">
+        <a href="">
+            <div class="containerimg">
+              <img src="{% static 'img/ict.PNG' %}" class="active">
+              <img src="{% static 'img/steps.jpg' %}">
+              <img src="{% static 'img/site.jpg' %}">
+              <div class="overlay">MEET the Outstanding Champions</div>
+            </div>
+        </a>
+        <div>
+          <a style="padding: 20px;" href="" class=""><i class="fas fa-newspaper"></i> Ads</a>
+        </div>
+        </div>
+                        <br>
+
+    </div>
+    <hr>
+    <div class="row" style="position: relative; padding:20px; 20px; 0px;  height: 10%; background: linear-gradient(to top, rgba(0,0,0,0),
+    rgba(0,0,0,0), rgba(0,0,0,0), rgba(9,0,0,0.5), rgba(9,0,0,3.5));"><strong>Optional Column</strong></div>
+
+<div class="container">
+    <div class="column">
+        <h2>Column 1</h2>
+        <p>This is the content of column 1.</p>
+    </div>
+    <div class="column">
+        <h2>Column 2</h2>
+        <p>This is the content of column 2.</p>
+    </div>
+    <div class="column">
+        <h2>Column 3</h2>
+        <p>This is the content of column 3.</p>
+    </div>
+</div>
+
+                        <hr>
+    <div class="row" style="position: relative; padding:20px; 20px; 0px;  height: 10%; background: linear-gradient(to top, rgba(0,0,0,0),
+    rgba(0,0,0,0), rgba(0,0,0,0), rgba(9,0,0,0.5), rgba(9,0,0,3.5));"><strong>News Update</strong></div>
+
+
+<div class="row" style="padding: 10px 50px;">
+    <div class="colum">
+         {% if items %}
+        <div class="row">
+            {% for item in items %}
+            <div class="col-md-4 col-sm-8 mb-3 p-0" style="border-radius: 25px; box-shadow: 0 4px 6px
+            rgba(0, 0, 0, 5.1), 0 1px 3px rgba(0, 0, 0, 3.1);">
+                    {% if request.user.is_superuser %}
+                    <div class="dropdown">
+                        <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v text-white"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'edit_post' pk=item.id %}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                            <a class="dropdown-item" href="{% url 'delete_post' pk=item.id %}"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if item.image %}
+                    <div class="containerimg">
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                    </div>
+                    {% endif %}
+                    <div class="p-2">
+                        <strong>{{ item.title|title }}</strong>
+                    </div>
+
+                    <div class="item-summary-wrapper">
+                        <div class="p-2 card-text-full collapse" id="item-summary-{{ item.id }}">{{ item.summary }}</div>
+                        <a href="#item-summary-{{ item.id }}" class="read-more-link read-more-button" data-toggle="collapse">
+                            <button style="padding: auto;" class="button">Read More 👇🏻👇🏻👇🏻</button>
+                        </a>
+                        <a href="#item-summary-{{ item.id }}" class="read-more-link end-button collapse" data-toggle="collapse">
+                            <button class="button" >👆🏻👆🏻👆🏻 END</button>
+                        </a><hr>
+                        <i class="fa" style="float:right;">{{ item.updated_date|timesince }}</i>
+
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if request.user.is_superuser %}
+        <div class="manage-wrap">
+            <a class="btn btn-primary" href="{% url 'add_item' %}"><i class="fas fa-plus"></i>Add New Post</a>
+        </div>
+        {% endif %}
+        {% else %}
+        <p>
+            <i class="far fa-frown fa-2x"></i>So empty.
+        </p>
+        {% endif %}
+    </div>
+</div>
+    <hr>
+
+  <!-- Chat Box -->
+  <div class="chat-box">
+    <div class="chat-header" onclick="toggleChatForm()">
+      <i class="fas fa-comment"></i> Let's Chat
+    </div>
+    <div class="chat-body">
+      <div class="chat-form">
+        <textarea placeholder="Type your message..."></textarea>
+        <button>Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button to Open Chat Box -->
+  <div class="chat-button" onclick="toggleChatBox()">
+              <img src="{% static 'img/he.png' %}">
+  </div>
+</body>
+
+  <script>
+    // JavaScript to toggle the chat box and chat form
+    function toggleChatBox() {
+      var chatBox = document.querySelector('.chat-box');
+      chatBox.style.display = chatBox.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleChatForm() {
+      var chatForm = document.querySelector('.chat-form');
+      chatForm.style.display = chatForm.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+        <script>
+                $(document).ready(function () {
+                    $('.read-more-button').on('click', function () {
+                        $(this).hide(); // Hide the "Read More" button
+                        $(this).siblings('.end-button').show(); // Show the "End" button
+                    });
+
+                    $('.end-button').on('click', function () {
+                        $(this).hide(); // Hide the "End" button
+                        $(this.getAttribute('href')).collapse('hide'); // Hide the expanded content
+                        $(this).siblings('.read-more-button').show(); // Show the "Read More" button
+                    });
+               });
+           </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    const containers = document.querySelectorAll('.containerimg');
+
+    containers.forEach(container => {
+      const images = container.querySelectorAll('img');
+      let index = 0;
+
+      setInterval(() => {
+        images[index].classList.remove('active');
+        index = (index + 1) % images.length;
+        images[index].classList.add('active');
+      }, 3000);
+    });
+  });
+</script>
+
+<script>
+  $('#login-form').submit(function (e) {
+    // e.preventDefault();
+    $('#login-btn').addClass('disabled')
+    $('#login-btn').html(`<i class="fas fa-sign-in-alt"></i> Signining you in . . .`)
+  })
+
+  $("#username").on("input", function () {
+    username = $(this).val();
+
+    $.ajax({
+      url: "/accounts/ajax/validate-username/",
+      data: {
+        username: username
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.is_taken) {
+          console.log(data.is_taken);
+          $('#message-wrapper').html(`<p class="my-2 text-danger"><span class="bg-error p-2"><b>${username}</b> already taken :( try another one </span></p>`)
+        }
+        else {
+          $('#message-wrapper').html(`<p class="my-2 text-success"><span class="bg-correct p-2"><b>${username}</b> is valid </span></p>`)
+        }
+      }
+
+    })
+  })
+</script>
+
+{% endblock content %}

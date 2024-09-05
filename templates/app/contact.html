@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="about-section">
+    <div class="row" style="margin-left: 5px;">
+        <!-- First Column -->
+        <div class="column">
+            <div class="card">
+                <img src="{% static 'img/steps.jpg' %}" alt="jimmy img" style="width: 100%;">
+                <div class="containerq">
+                    <h2>Dr. Stephanie Oarhe</h2>
+                    <p class="title">DIRECTOR</p>
+                    <p><button class="button">Email</button></p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/ict.PNG' %}" alt="jimmy img" style="height:100%;">
+                <div class="containerq">
+                    <h2>Mrs. Dayo Dayo</h2>
+                    <p class="title">Head Administrator</p>
+                    <p>Email</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/enroll.png' %}" alt="jimmy img" style="width:100%">
+                <div class="containerq">
+                    <h2>Mrs. Ogba James</h2>
+                    <p class="title">Developer</p>
+                    <p>Email</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/enroll.png' %}" alt="jimmy img" style="width:100%">
+                <div class="containerq">
+                    <h2>Analyst. Ogba James</h2>
+                    <p class="title">Developer</p>
+                    <p>Email</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Second Column -->
+        <div class="column" style="width: 60%; margin-left: 10px; ">
+    <div class="">
+    <h1>Our Core Values</h1>
+    <p>At Hilltop International Group of School, our core values are the guiding principles that shape our institution's identity and drive our commitment to excellence in education. These values represent the essence of who we are and what we stand for, serving as the foundation upon which we build our educational community.</p>
+
+    <ol>
+        <li>
+            <h2>Diversity and Inclusion</h2>
+            <p>We celebrate diversity and inclusivity, recognizing that every student brings a unique perspective and potential to our school. We foster an environment where all individuals are respected, valued, and provided with equal opportunities to learn and grow.</p>
+        </li>
+        <li>
+            <h2>Academic Excellence</h2>
+            <p>We are dedicated to providing a rigorous and comprehensive education that prepares our students for a lifetime of success. Our commitment to academic excellence drives us to continuously innovate and uphold the highest standards of teaching and learning.</p>
+        </li>
+        <li>
+            <h2>Character Development</h2>
+            <p>We believe that education extends beyond the classroom. Our focus on character development instills values such as integrity, responsibility, empathy, and respect in our students. We aim to nurture not only knowledgeable individuals but also responsible and compassionate citizens.</p>
+        </li>
+        <li>
+            <h2>Community Engagement</h2>
+            <p>We actively engage with our local and global communities to promote social responsibility and civic participation. We encourage our students to become active contributors to society, fostering a sense of responsibility and empathy towards others.</p>
+        </li>
+        <li>
+            <h2>Innovation and Creativity</h2>
+            <p>We foster a culture of innovation and creativity, encouraging our students to explore their passions and think critically. We provide opportunities for students to develop their problem-solving skills and become lifelong learners and innovators.</p>
+        </li>
+        <li>
+            <h2>Collaboration and Teamwork</h2>
+            <p>We believe that collaboration and teamwork are essential skills for success in the 21st century. Our students learn to work together, value diverse perspectives, and achieve common goals, preparing them for a world that relies on cooperation and collaboration.</p>
+        </li>
+        <li>
+            <h2>Environmental Stewardship</h2>
+            <p>We are committed to environmental stewardship and sustainability. Our school encourages responsible practices that reduce our ecological footprint and instill a sense of environmental responsibility in our students.</p>
+        </li>
+        <li>
+            <h2>Ethical Leadership</h2>
+            <p>We nurture ethical leadership qualities in our students, empowering them to make ethical decisions and lead by example in their future endeavors. We believe that ethical leadership is vital for creating a better society.</p>
+        </li>
+    </ol>
+
+    <p>These core values serve as the compass that guides our educational journey at Hilltop International Group of School. They shape our curriculum, our interactions, and our aspirations for our students. As we uphold these values, we create an environment where each student can flourish academically, socially, and ethically, preparing them for a future filled with possibilities.</p>
+                <!-- Add the rest of your content for the second column here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div>
+  <form action="mailing" method="POST" style="      border: 1px solid navy;
+      border-radius: 10px;
+      width: 100%;
+      padding: 20px; /* Add padding to the form container */
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+">
+                <h5 class="row justify-content-center"> 👇🏻 About Us 👍🏻</h5>
+
+                    <iframe style="border-radius: 20px;" width="100%" height="315" src="https://www.youtube.com/embed/Ks8My0gyrNM"
+                            title="Welcome to School" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+                            encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+    <p>We'd love to hear from you! If you have any questions, feedback, or inquiries, please don't hesitate to get in touch with us. You can reach us using the contact details below or by filling out the contact form.</p>
+      <h3><strong>Contact Info</strong></h3>
+    <p><strong>Email:</strong> oscomputers.gwandara@gmail.com</p>
+    <p><strong>Phone:</strong> +234 704-326-8591, +1 123-456-7890</p>
+    <p><strong>HQ Address:</strong> 23 Main Street, Prone City, USA</p>
+    <p><strong>Service Address:</strong> 40 Alafi, New Road, Lekki Lagos, Nigeria</p>
+      <h3><strong>Contact Form</strong></h3>
+    {% csrf_token %}
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="phone">Phone Number:</label>
+      <input type="number" id="phone" name="phone" required>
+    </div>
+    <div>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+    </div>
+    <button style="      background-color: navy;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px; /* Add space above the button */
+" type="submit">Send Message</button>
+  </form>
+                          <div style="padding-top: 40px;"></div>
+
+<style>
+
+/* Reduce the font size of H2 elements */
+h2 {
+  font-size: 20px; /* Adjust the size to your preference */
+}
+
+/* Reduce the font size of P elements */
+p {
+  font-size: 18px; /* Adjust the size to your preference */
+}
+
+.column {
+  width: 33.3%;
+  margin-bottom: 16px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 5px;
+}
+.about-section {
+  text-align: center;
+  background-color: lightgray;
+  color: navy;
+}
+
+.containerq {
+  padding: 0 16px;
+  width: 100%;
+}
+
+.containerq::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+font-weight: bold;
+  color: red;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+  </style>
+</div>
+<style>
+/* Common styles for all screen sizes */
+
+/* Reduce the font size of H2 elements */
+h2 {
+  font-size: 24px; /* Default size */
+}
+
+/* Reduce the font size of P elements */
+p {
+  font-size: 20px; /* Default size */
+}
+
+.column {
+  width: 33.3%;
+  margin-bottom: 16px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 5px;
+}
+.about-section {
+  text-align: center;
+  background-color: lightgray;
+  color: navy;
+}
+
+.containerq {
+  padding: 0 16px;
+  width: 100%;
+}
+
+.containerq::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  font-weight: bold;
+  color: red;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+/* Media query for smaller devices */
+@media only screen and (max-width: 768px) {
+  /* Adjust font sizes for smaller screens */
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  /* Adjust column width for smaller screens */
+  .column {
+    width: 100%;
+  }
+}
+</style>
+
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container3">
+    <div id="input-nav" class="p-2"><a href="{% url 'home' %}"> Home </a> Message Notifications</div>
+
+
+    <h1>Inbox</h1>
+
+        <ul>
+        </ul>
+          {% for message in received_messages %}
+            <li>
+                {% if message.is_read %}
+                    <a href="{% url 'open_message' message.id %}">
+                        <p class="notification-number">{{ forloop.counter }}</p>
+                        📨 | {{ message.title }}<br>
+                        <ol>{{ message.content|slice:":50"}}................<br ><<< See More >>> </ol>
+                        <br> <ol>{{ message.created_at }}</ol>
+                    </a>
+            <hr>______________________________________________________________________
+
+                {% else %}
+                    <strong>
+                        <a href="{% url 'open_message' message.id %}">
+                            <p class="notification-number">{{ forloop.counter }}*</p>
+                         (*New ✉) | {{ message.title }} <br> <ol>{{ message.content|slice:":20"}}................
+                            <br><<< See More >>><br></ol>
+                            <small>{{ message.created_at }}</small>
+                        </a>
+                    </strong>
+                    <hr>______________________________________________________________________
+
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+            <p>Total Received Messages: {{ received_messages.count }}</p>
+
+</div>
+{% endblock content %}

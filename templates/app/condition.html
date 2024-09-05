@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<link href="{% static 'css/musicweb.css' %}" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Terms of Use</title>
+</head>
+<body>
+    <div class="terms-container">
+        <h1 class="title">Terms of Use</h1>
+        <p class="last-updated">Last Updated: [Date: {% now "Y-m-d" %}]</p>
+
+        <p>Welcome to Easy-Jay Technologies! These Terms of Use ("Terms") outline the rules and regulations for the
+            use of our software and services. By accessing or using our software, you agree to comply with these Terms.
+            If you do not agree with any part of these Terms, you may not use our software.</p>
+
+        <h2 class="section-title">1. Acceptance of Terms</h2>
+        <p>By accessing or using our software, you agree to be bound by these Terms. If you do not agree with any of
+            these Terms, please refrain from using our software.</p>
+
+        <!-- More sections... -->
+
+        <h2 class="section-title"> 2. Use of Software</h2>
+
+        <p> 2.1 You may use our software and services solely for your own personal or business use, as permitted by
+            these Terms. </p>
+
+        <h2 > 2.2 You agree not to: </h2>
+
+        <p> a) Copy, reproduce, distribute, modify, or create derivative works based on our software.</p>
+
+        <p> b) Use our software for any illegal or unauthorized purpose. </p>
+
+        <p> c) Attempt to gain unauthorized access to our software or its related systems. </p>
+
+        <p> d) Interfere with the proper working of our software. </p>
+
+        <p> e) Transmit any viruses, worms, or other harmful code. </p>
+
+        <h2 class="section-title"> 3. Intellectual Property </h2>
+
+        <p> All intellectual property rights in our software, including but not limited to copyrights, trademarks, and
+            trade secrets, are owned by Easy-Jay Technologies. You may not use our intellectual property without our
+            express written permission. </p>
+
+        <h2 class="section-title"> 4. Privacy Policy </h2>
+
+        <p> Your use of our software is also subject to our Privacy Policy, which can be found
+            <a href="{% url 'condition' %}" style="font-size: 16px;font-weight: bold; color: navy;"> HERE.</a>
+            Please review this policy to understand how we collect, use, and protect your personal information. </p>
+
+        <h2 class="section-title"> 5. Termination </h2>
+
+        <p> We reserve the right to terminate your access to our software at any time, without prior notice, if
+            you violate these Terms. </p>
+
+        <h2 class="section-title"> 6. Disclaimer of Warranty </h2>
+
+        <p>Our software is provided "as is" without warranties of any kind, whether express or implied. We do not
+            warrant that our software will be error-free or uninterrupted. </p>
+
+        <h2 class="section-title"> 7. Limitation of Liability </h2>
+
+        <p> In no event shall Easy-Jay Technologies be liable for any indirect, incidental, special, or
+            consequential damages arising out of or in connection with your use of our software. </p>
+
+        <h2 class="section-title"> 8. Changes to Terms </h2>
+
+        <p> We reserve the right to modify or replace these Terms at any time. The most current version of these
+            Terms will be posted on our website. By continuing to use our software after changes to these Terms,
+            you agree to the updated Terms. </p>
+
+        <h2 class="section-title"> 9. Governing Law </h2>
+
+        <p> These Terms are governed by and construed in accordance with the laws of [Jurisdiction], without
+            regard to its conflict of law principles. </p>
+
+
+        <h2 class="section-title">10. Contact Information</h2>
+        <p>If you have any questions about these Terms, please contact us at <a
+                href="contact">contact@easyjaytech.com</a>.</p>
+
+        <p class="disclaimer">It's also recommended to seek
+            legal advice when finalizing our Terms of Use, if NOT readily clear about what you want.</p>
+    </div>
+</body>
+</html>
+{% endblock content %}

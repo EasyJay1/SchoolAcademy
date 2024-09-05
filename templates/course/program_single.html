@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} | DjangoSMS{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a>
+    <a href="{% url 'programs' %}" class="primary1">Programs</a> {{ program.title }}
+</div>
+
+{% if request.user.is_superuser %}
+<div class="manage-wrap">
+    <a class="btn btn-sm btn-primary" href="{% url 'course_add' pk=program.pk %}"><i class="fas fa-plus"></i>Add
+        Subject</a>
+</div>
+{% endif %}
+
+
+{% if program %}
+<div class="title-1">{{ program.title }}</div>
+{% if program.summary %}
+<p class="program-description">{{ program.summary }}</p>
+{% endif %}
+{% endif %}
+
+<div class="content-center">
+<form method="get" action="{% url 'program_detail' program.id %}">
+    <div class="form-group">
+        <input type="text" name="name" id="name" value="{{ request.GET.name }}" placeholder="Enter Subject Name">
+    <button type="submit" class="btn btn-primary">Search</button>
+
+    </div>
+</form>
+</div>
+
+  <form method="get" action="">
+    {{ filter_form.as_p }}
+    <button type="submit">Apply Filters</button>
+  </form>
+
+
+<div class="table-responsive p-0 px-2 mt-5">
+    <div class="table-shadow">
+        <table class="table table-light table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> Subject Name </th>
+                    <th> Subject Code </th>
+                    <th> Cr.Hr </th>
+                    <th> Level </th>
+                    <th> Year </th>
+                    <th> Term </th>
+                    <th> Current Semester </th>
+                    {% if request.user.is_superuser %}
+                    <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ forloop.counter }}.</td>
+                    <td><a href="{{ course.get_absolute_url }}">
+                            {{ course.title }}</a></td>
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.credit }}</td>
+                    <td>{{ course.level }}</td>
+                    <td>{{ course.year }}</td>
+                    <td>{{ course.semester }}</td>
+                    <th>
+                        {% if course.is_current_semester == False %}
+                        <i class="fas fa-times-circle fa-1-5x danger"></i>
+                        {% elif course.is_current_semester == True %}
+                        <i class="fas fa-check-circle fa-1-5x"></i>
+                        {% endif %}
+                    </th>
+                    {% if request.user.is_superuser %}
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'edit_course' slug=course.slug %}">
+                                    <i class="fas fa-pencil-alt"></i> Edit
+                                </a>
+                                <a class="dropdown-item" href="{% url 'delete_course' slug=course.slug %}">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if courses.paginator.page_range|length > 1 %}
+<div class="content-center">
+<div class="pagination">
+    <span class="step-links">
+        {% if courses.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ courses.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ courses.number }} of {{ courses.paginator.num_pages }}.
+        </span>
+
+        {% if courses.has_next %}
+            <a href="?page={{ courses.next_page_number }}">next</a>
+            <a href="?page={{ courses.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endif %}
+<p>Total Credits: {{ credits.credit__sum }}</p>
+
+{% endblock content %}

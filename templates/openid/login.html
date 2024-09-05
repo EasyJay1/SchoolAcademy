@@ -1,0 +1,20 @@
+{% extends "openid/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}OpenID Sign In{% endblock %}
+
+{% block content %}
+{% load static %}
+<link href="{% static 'css/musicweb.css' %}" rel="stylesheet">
+
+<h1>{% trans 'OpenID Sign In' %}</h1>
+
+
+<form id="openid_login_form" class="login" method="post" action="{% url 'openid_login' %}">
+{% csrf_token %}
+{{form.as_p}}
+<button type="submit">Sign In</button>
+</form>
+
+{% endblock %}

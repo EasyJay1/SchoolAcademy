@@ -1,0 +1,127 @@
+{% load static %}
+
+<div id="side-nav" class="open" style="position: fixed;
+		  padding: 5px; ">
+	<div class="main-menu">
+			<div class="desktop-hide text-right">
+				<div class="toggle-btn" onclick="toggleSidebar()" style="color: red; right: 2%; top: 0%;
+					 padding:5px 5px 10px 10px;	border-bottom-left-radius: 10px; font-size: 15px;">
+					<i class="fas fa-times"></i>
+				</div>
+			</div>
+
+		<div class="top text-center py-0">
+			<img src="{% static 'img/logos.png' %}" width="70px" alt="logo">
+		</div>
+		{% url 'home' as hom %} {% url 'calendar' as cal %} {% url 'dashboard' as dash %} {% url 'profile' as prof %}
+		{% url 'parentaccount' as lec %} {% url 'studentmanager' as stu %} {% url 'bursary' as bur %}
+		{% url 'idcard' as pro %} {% url 'timetable' as tim %} {% url 'home' as sem %}
+		{% url 'add_score' as ascore %} {% url 'grade_results' as vr %}{% url 'ass_results' as ar %}
+		{% url 'course_registration' as cr %} {% url 'contact' as ep %} {% url 'change_password' as cp %}
+		{% url 'quiz_progress' as qpr %} {% url 'quiz_marking' as qce %} {% url 'user_course_list' as ucl %}
+		{% url 'admin_panel' as admin_p %}
+							{% if user.is_authenticated %}
+		<strong style="float: right;
+  color: #fff;
+  background: #000;
+  padding: 3px 3px;
+  font-weight: bold;
+      border: 1px solid #ccc;
+    border-radius: 14px;
+  font-size: 9px; }
+"> Hi, {{ user.get_full_name }}</strong>
+<br>
+		<hr>
+		{% endif %}
+		<ul>
+			{% if request.user.is_superuser %}
+			<li class="{% if request.path == admin_p %}active{% endif %}">
+				<a href="{% url 'admin_panel' %}"><i class="fas fa-user-tie">|</i> Admin Panel</a>
+			</li>
+			{% endif %}
+			<li class="{% if request.path == dash %}active{% endif %}">
+				<a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt">| STATISTICS</i></a>
+			</li>
+			<li class="{% if request.path == hom %}active{% endif %}">
+				<a href="{% url 'home' %}"><p class="fas fa-home">| Home</p></a>
+			</li>
+
+			<li class="{% if request.path == bur %}active{% endif %}">
+				<a href="{% url 'bursary' %}"><p class="fas fa-tasks">| Bursary</p></a>
+			</li>
+
+			<li class="{% if request.path == tim %}active{% endif %}">
+				<a href="{% url 'timetable' %}"><p class="fas fa-calendar-week">| Time-table</p></a>
+			</li>
+			<li class="{% if request.path == ep %}active{% endif %}">
+				<a href="{% url 'contact' %}"><p class="fas fa-info-circle"></p>| About Us</a>
+			</li>
+
+			<hr>
+
+			<li style="padding: 20px;" ><strong>&RightArrow;Student Only</strong></li>
+			{% if request.user.is_lecturer %}
+			<p   class="ml-3"><strong>&DownArrow; Access Others &DownArrow;</strong></p>
+
+			<li class="{% if request.path == ascore %}active{% endif %}">
+				<a href="{% url 'add_score' %}"><p class="fas fa-table">| Manage Score</p></a>
+			</li>
+			{% endif %}
+
+			<li class="{% if request.path == pro %}active{% endif %}">
+				<a href=""><p class="fas fa-book-open">| Print ID-Card</p></a>
+			</li>
+
+			<li class="{% if request.path == ucl %}active{% endif %}">
+				<a href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>| My Subjects</a>
+			</li>
+
+			<li class="{% if request.path == qpr %}active{% endif %}">
+				<a href="{% url 'quiz_progress' %}"><p class="fas fa-record-vinyl">| Quiz </p></a>
+			</li>
+			<li class="{% if request.path == vr %}active{% endif %}">
+				<a href="{% url 'grade_results' %}"><p class="fas fa-star">| Grade Results</p></a>
+			</li>
+			<li class="{% if request.path == ar %}active{% endif %}">
+				<a href="{% url 'ass_results' %}"><p class="fa fa-spell-check">| Assesment</p></a>
+			</li>
+			<!-- <li class="{% if request.path == prof %}active{% endif %}">
+				<a href="{% url 'profile' %}"><i class="fas fa-user"></i>Profile</a>
+			</li> -->
+			{% if request.user.is_superuser or request.user.is_lecturer %}
+			<li class="{% if request.path == qce %}active{% endif %}">
+				<a href="{% url 'quiz_marking' %}"><p class="fas fa-check-double"></p>| Complete Exams</a>
+			</li>
+			{% endif %}
+
+			<br />
+			{% if request.user.is_lecturer or request.user.is_student or request.user.is_superuser %}
+			<hr>
+			<p class="ml-3"><strong>&RightArrow; Security Settings</strong></p>
+
+			<!-- <li class="{% if request.path == ep %}active{% endif %}">
+				<a href="{% url 'edit_profile' %}"><i class="fas fa-cogs"></i>Account Setting</a>
+			</li> -->
+			<li class="{% if request.path == cp %}active{% endif %}">
+				<a href="{% url 'change_password' %}"><i class="fas fa-key"></i>| Change Password</a>
+			</li>
+                                {% endif %}
+			<hr>
+		</ul>
+	</div>
+
+	<footer class="card-footer mt-3 pt-2 pb-3 px-1">
+		<div class="col-12">
+			<p class="small m-0">
+				Read our <a href="{% url 'condition' %}"> Privacy </a> and <a href="{% url 'condition' %}"> Terms of use. </a>
+				<br />Techlogic Inc. &copy; <script>document.write(new Date().getFullYear());</script>
+				<br />
+			</p>
+			<p></p>
+			<a href="https://easyjay.pythonanywhere.com" style="cursor: hand2; border-radius: 15px;" class="btn btn-sm btn-dark mx-auto"
+			   target="_blank">
+				⭐️ By ANALYST OGBA JAMES
+			</a>
+		</div>
+	</footer>
+</div>

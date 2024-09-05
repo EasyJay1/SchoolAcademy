@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav">
+    <a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i>
+    <a href="{% url 'programs' %}" class="primary1">Programs</a> <i>&rsaquo;</i> Add & Update Subject
+</div>
+
+<div class="title-1">Subject Add & Update Form</div>
+<div class="title-line"></div>
+
+
+<form action="" method="POST" class="mt-4">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title">Subject Info</p>
+                <div class="p-3">
+                    <div class="form-group">
+                        <label for="id_title"><b>SUBJECT:</b></label>
+                        {{ form.title }}
+                        <span class="danger">{{ form.title.errors }}</span>
+                        <p class="text-muted-xs">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_code"><b>Code:</b></label>
+                        {{ form.code }}
+                        <span class="danger">{{ form.code.errors }}</span>
+                        <p class="text-muted-xs">The Subject code must be similar to only the pre requests.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_summary"><b>Summary:</b></label>
+                        {{ form.summary }}
+                        <span class="danger">{{ form.summary.errors }}</span>
+                        <p class="text-muted-xs">Enter some description about the Subject.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title">Applicant Info</p>
+                <div class="p-3">
+                    <div class="form-group">
+                        <label for="id_program"><b>Program:</b></label>
+                        {{ form.program }}
+                        <span class="danger">{{ form.program.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_credit"><b>Credit:</b></label>
+                        {{ form.credit }}
+                        <span class="danger">{{ form.credit.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_year"><b>Year:</b></label>
+                        {{ form.year }}
+                        <span class="danger">{{ form.year.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_semester"><b>Semester:</b></label>
+                        {{ form.semester }}
+                        <span class="danger">{{ form.semester.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_level"><b>Level:</b></label>
+                        {{ form.level }}
+                        <span class="danger">{{ form.level.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_is_elective"><b>Is Elective:</b></label>
+                        {{ form.is_elective }}
+                        <span class="danger">{{ form.is_elective.errors }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center><input class="btn btn-outline-primary mt-3" type="submit" value="ADD COURSE"></center>
+</form>
+
+{% endblock content %}

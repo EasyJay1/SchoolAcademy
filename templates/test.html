@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<div class="container3">
+<div id="input-nav" style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="{% url 'home' %}"> Home</a>
+    {% if request.user.is_lecturer or request.user.is_student or request.user.is_superuser %}
+    {% else %}
+    <span> <a href="{% url 'register' %}" class="button"><i>OBTAIN ADMISSION FORM</i></a></span>
+    {% endif %}
+</div>
+
+    <div class="container">
+        {% if user.is_authenticated %}
+            <div class="column1">
+                <div class="video-container" style="padding: 5px;margin-left: 10px; border-radius: 20px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.10), 0 1px 3px rgba(0, 0, 0, 0.1); background-color: rgba(255, 255, 255, 0.70);">
+                <h5 class="row justify-content-center"> 👋🏻 Director's Welcome Speech 🤝🏻</h5>
+
+                    <iframe style="border-radius: 20px;" width="400" height="315" src="https://www.youtube.com/embed/Ks8My0gyrNM"
+                            title="Welcome to School" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+                            encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        {% else %}
+            <div class="column1">
+                <div id="login" style=" border-radius: 25px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+                    background-color: rgba(255, 255, 255, 0.5);">
+                    <div class="login-title blue-gradient"><i class="fas fa-lock"></i>Student Sign-in
+                    </div>
+
+                    <form action="" method="POST" id="login-form">{% csrf_token %}
+                        <div class="form-group px-3">
+                            <label for="username_id"><i class="fas fa-address-card"></i>USERNAME</label>
+                            <input type="text" name="username" placeholder="Enter Username" id="username_id" class="form-control" required>
+                            <div id="message-wrapper"></div>
+                        </div>
+                        <div class="form-group px-3">
+                            <label for="password_id"><i class="fas fa-key"></i>Password</label>
+                            <input type="password" name="password" id="password_id" placeholder="Enter Password" class="form-control" required>
+                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger">
+                                        <i class="fas fa-exclamation-circle"></i>{{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <button type="submit" class="btn btn-primary" id="login-btn"><i class="fas fa-sign-in-alt"></i><small> SIGN IN</small></button>
+                    </form>
+                    <br>
+                    <a style="color: navy; font-weight: bold;" href="{% url 'password_reset' %}" class="link">Forgot password ?</a>
+                </div>
+            </div>
+        {% endif %}
+
+    <div class="container4" style="border-radius: 20px;">
+        <div class="column">
+                {% if items %}
+                    <div class="row">
+                        {% for item in items %}
+                            <div class="col-md-6 col-sm-8 mb-2">
+                                <div class="mind">
+                                        {% if request.user.is_superuser %}
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v text-white"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'edit_post' pk=item.id %}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                                    <a class="dropdown-item" href="{% url 'delete_post' pk=item.id %}"><i class="fas fa-trash-alt"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    <div class="row">
+                                    <div class="col-md-6 col-sm-3 mb-2">
+                                            {% if item.image %}
+                                                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 col-sm-3 mb-2">
+                                            <div class="p-2 card-text" style="max-height: 5.2em; overflow: hidden;">
+                                                <strong>{{ item.title|title }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="item-summary-wrapper">
+                                            <div class="p-2 card-text-full collapse" id="item-summary-{{ item.id }}">{{ item.summary }}</div>
+                                            <a href="#item-summary-{{ item.id }}" class="read-more-link read-more-button" data-toggle="collapse">
+                                                <button style="padding: auto;" class="button">Read More 👇🏻👇🏻👇🏻</button>
+                                            </a>
+                                            <a href="#item-summary-{{ item.id }}" class="read-more-link end-button collapse" data-toggle="collapse">
+                                                <button class="button" >👆🏻👆🏻👆🏻 END</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="date-wrapper">
+                                        <i class="fa">{{ item.updated_date|timesince }}</i>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if request.user.is_superuser %}
+                        <div class="manage-wrap">
+                            <a class="btn btn-primary" href="{% url 'add_item' %}"><i class="fas fa-plus"></i>Add New Post</a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p>
+                        <i class="far fa-frown fa-2x"></i>So empty.
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+    <br>
+
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+              <div class="carousel-inner" >
+                <div class="carousel-item active">
+                  <img style="border-radius: 20px;" src="{% static 'img/R.gif' %}" width="100%" alt="0">
+                  <div class="carousel-caption">
+                    <h3>Dance Performance By Terra House</h3>
+                    <!-- You can customize the title here -->
+                  </div>
+                </div>
+                    <div class="carousel-item">
+                      <img style="border-radius: 20px;" src="{% static 'img/R.gif' %}" width="100%" alt="0">
+                      <div class="carousel-caption">
+                        <h3>We're all human beings with uniqueness.
+                            Let us treat each other with kindness, recognizing the humanity in one another.</h3>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="{% static 'img/R.gif' %}" style="border-radius: 20px;" width="100%" alt="0">
+                      <div class="carousel-caption">
+                        <h3>Start Your Academic Journey With Us and Experience The Dynamics Of Optimism</h3>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="{% static 'img/R.gif' %}" style="border-radius: 20px;" width="100%" alt="0">
+                      <div class="carousel-caption">
+                        <h3>Title 5</h3>
+                        <!-- You can customize the title here -->
+                      </div>
+                    </div>
+                </div>
+                <div >
+                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                        <span class=""> <</span>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                        <span class="">></span>
+                    </a>
+                </div>
+            </div>
+        <script>
+            $(document).ready(function () {
+                $('#myCarousel').carousel({
+                    interval: 3000
+                });
+            });
+        </script>
+    </div>
+</div>
+
+<style>
+    body {
+        background-image: url('{% static "img/nav.jpg" %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+</style>
+
+<button class="chatbot-toggler">
+  <span class="material-symbols-rounded">mode_comment</span>
+  <span class="material-symbols-outlined">close</span>
+</button>
+<div class="body" style="">
+  <div class="chatbot">
+    <header>
+      <h2>Live Chat With Admin</h2>
+      <span class="close-btn material-symbols-outlined">close</span>
+    </header>
+    <ul class="chatbox">
+      <li class="chat incoming">
+        <span class="material-symbols-outlined">Ad</span>
+        <p>Hi there 👋<br>What Are Your Full Names?</p>
+      </li>
+    </ul>
+    <div class="chat-input">
+      <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
+      <span id="send-btn" class="material-symbols-rounded">send</span>
+    </div>
+  </div>
+</div>
+
+ <script>
+     const chatbotToggler = document.querySelector(".chatbot-toggler");
+const closeBtn = document.querySelector(".close-btn");
+const chatbox = document.querySelector(".chatbox");
+const chatInput = document.querySelector(".chat-input textarea");
+const sendChatBtn = document.querySelector(".chat-input span");
+
+let userMessage = null; // Variable to store user's message
+const API_KEY = "PASTE-YOUR-API-KEY"; // Paste your API key here
+const inputInitHeight = chatInput.scrollHeight;
+
+const createChatLi = (message, className) => {
+    // Create a chat <li> element with passed message and className
+    const chatLi = document.createElement("li");
+    chatLi.classList.add("chat", `${className}`);
+    let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">Ad</span><p></p>`;
+    chatLi.innerHTML = chatContent;
+    chatLi.querySelector("p").textContent = message;
+    return chatLi; // return chat <li> element
+}
+
+const generateResponse = (chatElement) => {
+    const API_URL = "https://api.openai.com/v1/chat/completions";
+    const messageElement = chatElement.querySelector("p");
+
+    // Define the properties and message for the API request
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY}`
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{role: "user", content: userMessage}],
+        })
+    }
+
+    // Send POST request to API, get response and set the reponse as paragraph text
+    fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
+        messageElement.textContent = data.choices[0].message.content.trim();
+    }).catch(() => {
+        messageElement.classList.add("error");
+        messageElement.textContent = "Oops! Something went wrong. Please try again. Or Contact Admin @07062390730";
+    }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+}
+
+const handleChat = () => {
+    userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
+    if(!userMessage) return;
+
+    // Clear the input textarea and set its height to default
+    chatInput.value = "";
+    chatInput.style.height = `${inputInitHeight}px`;
+
+    // Append the user's message to the chatbox
+    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+    chatbox.scrollTo(0, chatbox.scrollHeight);
+
+    setTimeout(() => {
+        // Display "Typing..." message while waiting for the response
+        const incomingChatLi = createChatLi("Typing...", "incoming");
+        chatbox.appendChild(incomingChatLi);
+        chatbox.scrollTo(0, chatbox.scrollHeight);
+        generateResponse(incomingChatLi);
+    }, 600);
+}
+
+chatInput.addEventListener("input", () => {
+    // Adjust the height of the input textarea based on its content
+    chatInput.style.height = `${inputInitHeight}px`;
+    chatInput.style.height = `${chatInput.scrollHeight}px`;
+});
+
+chatInput.addEventListener("keydown", (e) => {
+    // If Enter key is pressed without Shift key and the window
+    // width is greater than 800px, handle the chat
+    if(e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+        e.preventDefault();
+        handleChat();
+    }
+});
+
+sendChatBtn.addEventListener("click", handleChat);
+closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
+chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+ </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <script src="script.js" defer></script>
+
+<script>
+  $('#login-form').submit(function (e) {
+    // e.preventDefault();
+    $('#login-btn').addClass('disabled')
+    $('#login-btn').html(`<i class="fas fa-sign-in-alt"></i> Signining you in . . .`)
+  })
+
+  $("#username").on("input", function () {
+    username = $(this).val();
+
+    $.ajax({
+      url: "/accounts/ajax/validate-username/",
+      data: {
+        username: username
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.is_taken) {
+          console.log(data.is_taken);
+          $('#message-wrapper').html(`<p class="my-2 text-danger"><span class="bg-error p-2"><b>${username}</b> already taken :( try another one </span></p>`)
+        }
+        else {
+          $('#message-wrapper').html(`<p class="my-2 text-success"><span class="bg-correct p-2"><b>${username}</b> is valid </span></p>`)
+        }
+      }
+
+    })
+  })
+</script>
+
+        <script>
+                $(document).ready(function () {
+                    $('.read-more-button').on('click', function () {
+                        $(this).hide(); // Hide the "Read More" button
+                        $(this).siblings('.end-button').show(); // Show the "End" button
+                    });
+
+                    $('.end-button').on('click', function () {
+                        $(this).hide(); // Hide the "End" button
+                        $(this.getAttribute('href')).collapse('hide'); // Hide the expanded content
+                        $(this).siblings('.read-more-button').show(); // Show the "Read More" button
+                    });
+               });
+           </script>
+
+    </div>
+
+{% endblock content %}

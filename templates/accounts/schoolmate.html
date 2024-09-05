@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Admin Course Registration</h1>
+
+  <!-- Display a form to select a student and courses for registration -->
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Select a student -->
+    <label for="student_id">Select Student:</label>
+    <select id="student_id" name="student_id">
+      {% for student in students %}
+        <option value="{{ student.id }}">{{ student.full_name }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Select courses for registration -->
+    <label>Choose Courses to Register:</label>
+    {% for course in courses %}
+      <input type="checkbox" name="{{ course.id }}" id="{{ course.id }}">
+      <label for="{{ course.id }}">{{ course.title }}</label><br>
+    {% endfor %}
+
+    <button type="submit">Register Courses</button>
+  </form>
+
+  <!-- Display success messages if any -->
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <!-- Add more styling and formatting as needed -->
+
+{% endblock %}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .payment-option {
+            flex: 1 1 300px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .payment-option h2 {
+            color: #333;
+        }
+
+        .payment-option p {
+            color: #777;
+        }
+
+        .cta-button {
+                    cursor: pointer;
+
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    {% if user_info %}
+            <i class="btn" style="float: right;">Hello, {{ user_info.first_name }} {{ user_info.last_name }}!</i>
+        <h1>Payment Options</h1>
+        <p>Please choose your preferred method of payment:</p>
+        <div class="payment-options">
+            <div class="payment-option">
+                <h2>DIRECT PAYMENT</h2>
+                <div class="payment-option" style="float: right;">
+                    <strong>ONE-TIME Payment of NGN250,000</strong>
+                      </div>
+
+
+                <div class="payment-option">
+                        <form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+                      <input type="hidden" name="public_key" value="FLWPUBK-3a99a377668e07a2ce7b16b78d9fc403-X" />
+                      <input type="hidden" name="customer[email]" value=" {{ user_info.email }}" />
+                      <input type="hidden" name="customer[phone]" value=" {{ user_info.phone }}" />
+
+                      <input type="hidden" name="customer[name]" value="{{ user_info.first_name }} {{ user_info.last_name }}" />
+
+                      <input type="hidden" name="tx_ref" value="{{ user_info.tx_ref }}" />
+                      <input type="hidden" name="amount" value="200" />
+                      <input type="hidden" name="currency" value="NGN" />
+                      <input type="hidden" name="meta[source]" value="docs-html-test" />
+                      <br>
+                      <button class="cta-button" type="submit" id="start-payment-button">
+                                          <img src="https://via.placeholder.com/30" alt="PayPal Logo">
+                                        PAY
+                      </button>
+                    </form>
+                </div>
+
+                {% endif %}
+            </div>
+            <div class="payment-option">
+                <h2>MANUAL PAYMENT</h2>
+                <p>Download the application form and send a copy via email or WhatsApp.</p>
+                <p>Email: <a href="">Oscomputers.gwandara@gmail.com</a></p>
+                <p>Whatsapp Number: <a href="">07062390730</a></p>
+
+                <a href="{% url 'generate_pdf' %}" class="cta-button">Download Form</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

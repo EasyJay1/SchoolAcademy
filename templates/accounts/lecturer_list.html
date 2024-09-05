@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Teacher</div>
+
+{% if request.user.is_superuser %}
+<a class="add-button" href="{% url 'add_lecturer' %}"><i class="fas fa-plus"></i>Add Teacher</a>
+{% endif %}
+
+<p class="title-1"><i class="fas fa-chalkboard-teacher"></i>Teachers List</p>
+<div class="title-line"></div>
+
+
+<div class="content-center">
+    <form class="search-form" action="" method="GET">
+        <input class="au-input" type="text" name="q" placeholder="Search by username, email, or phone" value="{{ request.GET.q }}">
+        <button class="btn btn-light" type="submit">
+            <i class="fas fa-search"></i> Search
+        </button>
+    </form>
+</div>
+
+<div class="table-responsive table-shadow table-light table-striped m-0 mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Full Names</th>
+                <th>Email</th>
+                <th>Phone</th>
+                {% if request.user.is_superuser %}
+                <th> Action </th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for lecturer in object_list %}
+            <tr>
+                <td> {{ forloop.counter }}.</td>
+                <td>{{ lecturer.username }}</td>
+                <td><a href="{% url 'profile_single' lecturer.id %}">{{ lecturer.get_full_name }}</a></td>
+                <td>{{ lecturer.email }}</td>
+                <td>{{ lecturer.phone }}</td>
+                {% if request.user.is_superuser %}
+                <td>
+                    <div class="update-delete">
+                        <a href="{% url 'staff_edit' pk=lecturer.pk %}" class="update"><i class="fas fa-edit"></i></a>
+                        <form action="{% url 'lecturer_delete' pk=lecturer.pk %}">{% csrf_token %}
+                            <button type="submit" class="btn btn-sm"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </div>
+                </td>
+                {% endif %}
+
+                {% empty %}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>
+                  <span class="text-danger">
+                    <i class="far fa-frown"></i>No Teachers(s).
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'add_lecturer' %}">
+                    <i class="primary" style="font-size: 22px;">
+                       Add Teacher Now.
+                    </i>
+                    {% endif %}
+                    </a>
+                  </span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if lecturers.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ lecturers.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ lecturers.number }} of {{ lecturers.paginator.num_pages }}.
+        </span>
+
+        {% if lecturers.has_next %}
+        <a href="?page={{ lecturers.next_page_number }}">next</a>
+        <a href="?page={{ lecturers.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+    const xhr = new XMLHttpRequest()
+    const method = 'GET'
+    const url = "/accounts/lecturers/"
+    const responseType = "json"
+
+    xhr.responseType = responseType
+    xhr.open(method, url)
+    xhr.onload = function() {
+      console.log(xhr.response)
+    }
+    xhr.send()
+</script>
+{% endblock %}
